@@ -1,8 +1,8 @@
-package com.github.admin.service.impl;
+package com.github.admin.server.service.impl;
 
-import com.github.admin.constant.SysUserState;
-import com.github.admin.model.SysUser;
-import com.github.admin.service.SysUserService;
+import com.github.admin.server.constant.SysUserState;
+import com.github.admin.server.model.SysUser;
+import com.github.admin.server.service.SysUserService;
 import com.github.foundation.authentication.FoundationUserService;
 import com.github.foundation.authentication.model.FoundationUser;
 import org.springframework.beans.factory.annotation.Autowired;

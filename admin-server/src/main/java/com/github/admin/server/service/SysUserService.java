@@ -1,13 +1,16 @@
-package com.github.admin.service;
+package com.github.admin.server.service;
 
-import com.github.admin.model.SysUser;
+import com.github.admin.server.dao.SysUserMapper;
+import com.github.admin.server.model.SysUser;
+import com.github.foundation.pagination.model.Pagination;
+import com.github.foundation.service.BaseService;
 
 /**
  * @Description:
  * @Author: kevin
  * @Date: 2019/11/25 11:24
  */
-public interface SysUserService {
+public interface SysUserService extends BaseService<SysUser, SysUserMapper> {
 
     /**
      * 根据用户名获取用户

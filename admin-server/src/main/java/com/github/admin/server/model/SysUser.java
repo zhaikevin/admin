@@ -1,4 +1,4 @@
-package com.github.admin.model;
+package com.github.admin.server.model;
 
 import lombok.Data;
 

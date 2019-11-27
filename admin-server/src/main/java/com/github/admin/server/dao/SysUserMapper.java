@@ -1,6 +1,6 @@
-package com.github.admin.dao;
+package com.github.admin.server.dao;
 
-import com.github.admin.model.SysUser;
+import com.github.admin.server.model.SysUser;
 import com.github.foundation.datasource.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

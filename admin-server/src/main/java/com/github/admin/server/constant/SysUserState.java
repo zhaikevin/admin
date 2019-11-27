@@ -1,4 +1,4 @@
-package com.github.admin.constant;
+package com.github.admin.server.constant;
 
 /**
  * @Description: 用户状态

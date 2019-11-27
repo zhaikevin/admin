@@ -1,4 +1,4 @@
-package com.github.admin.config;
+package com.github.admin.server.config;
 
 import com.github.foundation.common.exception.BaseRuntimeException;
 import com.github.foundation.common.model.ResultInfo;

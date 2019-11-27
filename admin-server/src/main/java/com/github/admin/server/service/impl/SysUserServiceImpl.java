@@ -1,14 +1,15 @@
-package com.github.admin.service.impl;
+package com.github.admin.server.service.impl;
 
-import com.github.admin.constant.SysUserState;
-import com.github.admin.dao.SysUserMapper;
-import com.github.admin.model.SysUser;
-import com.github.admin.service.SysUserService;
+import com.github.admin.server.constant.SysUserState;
+import com.github.admin.server.dao.SysUserMapper;
+import com.github.admin.server.model.SysUser;
+import com.github.admin.server.service.SysUserService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.common.utils.DateUtils;
 import com.github.foundation.common.utils.RandomUtils;
 import com.github.foundation.common.utils.ValidateUtils;
+import com.github.foundation.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import tk.mybatis.mapper.entity.Example;
  */
 @Service
 @Slf4j
-public class SysUserServiceImpl implements SysUserService {
+public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;

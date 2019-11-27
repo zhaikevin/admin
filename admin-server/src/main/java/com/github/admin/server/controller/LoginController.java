@@ -1,7 +1,7 @@
-package com.github.admin.controller;
+package com.github.admin.server.controller;
 
-import com.github.admin.model.SysUser;
-import com.github.admin.service.SysUserService;
+import com.github.admin.server.model.SysUser;
+import com.github.admin.server.service.SysUserService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import lombok.extern.slf4j.Slf4j;

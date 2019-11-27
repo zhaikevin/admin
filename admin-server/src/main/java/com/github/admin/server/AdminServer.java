@@ -1,4 +1,4 @@
-package com.github.admin;
+package com.github.admin.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.github.foundation","com.github.admin"})
-@MapperScan("com.github.admin.dao")
+@MapperScan("com.github.admin.server.dao")
 public class AdminServer {
 
     public static void main(String[] args) {
