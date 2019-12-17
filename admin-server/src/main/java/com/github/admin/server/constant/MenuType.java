@@ -1,13 +1,13 @@
 package com.github.admin.server.constant;
 
 /**
- * @Description: 用户状态
+ * @Description: 菜单类型
  */
-public enum SysUserState {
+public enum MenuType {
     /**
      * 枚举列表
      */
-    INVALID(0, "无效"), VALID(1, "有效");
+    MENU(1, "菜单"), BUTTON(2, "按钮");
     /**
      * 对应数值
      */
@@ -22,7 +22,7 @@ public enum SysUserState {
      * @param val   枚举数值
      * @param label 显示值
      */
-    SysUserState(Integer val, String label) {
+    MenuType(Integer val, String label) {
         this.val = val;
         this.label = label;
     }
@@ -32,9 +32,9 @@ public enum SysUserState {
      * @param val 枚举数值
      * @return 对应的枚举, 可能为null.
      */
-    public static SysUserState valueOf(Integer val) {
-        SysUserState[] ems = SysUserState.values();
-        for (SysUserState em : ems) {
+    public static MenuType valueOf(Integer val) {
+        MenuType[] ems = MenuType.values();
+        for (MenuType em : ems) {
             if (em.val.equals(val)) {
                 return em;
             }
@@ -62,7 +62,7 @@ public enum SysUserState {
      * @return label
      */
     public static String labelOf(Integer val) {
-        SysUserState em = valueOf(val);
+        MenuType em = valueOf(val);
         if (em == null) {
             return null;
         }

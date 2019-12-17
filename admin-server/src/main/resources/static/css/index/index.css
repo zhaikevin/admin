@@ -1,0 +1,60 @@
+.index-box {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
+}
+
+.index-box .el-container {
+    height: 100%;
+}
+
+.index-box .el-container .el-main {
+    height: 100%;
+}
+
+.index-box .el-aside {
+    background-color: #20222A;
+    height: 100vh;
+    min-height: 100%;
+}
+
+.index-box .el-aside .logo {
+    background-color: #20222A;
+    color: rgba(255, 255, 255, .8);
+    text-align: center;
+    height: 60px;
+    padding-top: 16px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border-bottom: 1px solid gray;
+}
+.index-box .el-header {
+    border-bottom: 1px solid #f6f6f6;
+    box-sizing: border-box;
+    background-color: #1890ff;
+    line-height: 60px;
+}
+
+
+.el-menu {
+    border: none;
+}
+.menu-nav:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+}
+
+
+.btn-tool {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+    text-align: left;
+}
+.user-name {
+    margin-left: 20px;
+}

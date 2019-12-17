@@ -34,6 +34,7 @@ var app = new Vue({
                     var data = res.body;
                     if (data.status === 0) {
                         self.$message.success("欢迎回来")
+                        window.location.href="index.html"
                     } else {
                         self.$message.error(data.statusInfo)
                     }

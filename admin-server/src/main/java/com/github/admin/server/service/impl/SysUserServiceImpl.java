@@ -1,6 +1,6 @@
 package com.github.admin.server.service.impl;
 
-import com.github.admin.server.constant.SysUserState;
+import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.dao.SysUserMapper;
 import com.github.admin.server.model.SysUser;
 import com.github.admin.server.service.SysUserService;
@@ -53,7 +53,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
             log.error("encrypt password failed:{}", e.getMessage(), e);
             throw new BusinessException("注册用户失败");
         }
-        sysUser.setStatus(SysUserState.VALID.getVal());
+        sysUser.setStatus(CommonState.VALID.getVal());
         sysUser.setCreator(sysUser.getUsername());
         sysUser.setModifier(sysUser.getUsername());
         sysUser.setCreateTime(DateUtils.now());

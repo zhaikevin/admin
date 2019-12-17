@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="element-ui/css/index.css">
+    <script type="text/javascript" src="element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="element-ui/js/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-container class="index-box">
+        <el-aside width="asideWidth">
+            <div class="logo">
+                <img v-show="!isCollapse" src="image/logo.png" alt="ELementUI" width="122" height="27">
+            </div>
+            <el-menu class="menu-nav"
+                     background-color="#20222A"
+                     text-color="rgba(255,255,255,.8)"
+                     active-text-color="#ffd04b"
+                     :collapse="isCollapse">
+                <template v-for="(menu,index) in menuList">
+                    <el-menu-item v-if="menu.children.length == 0" :index=menu.code>
+                        <i class="el-icon-menu"></i>
+                        <span slot="title">{{menu.name}}</span>
+                    </el-menu-item>
+                    <el-submenu v-if="menu.children.length > 0" :index=menu.code>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span> {{menu.name}}</span>
+                        </template>
+                        <template v-for="subMenu in menu.children">
+                            <el-menu-item :index=subMenu.code>
+                                <i class="el-icon-menu"></i>
+                                <span slot="title">{{subMenu.name}}</span>
+                            </el-menu-item>
+                        </template>
+                    </el-submenu>
+                </template>
+            </el-menu>
+        </el-aside>
+        <el-container>
+            <el-header>
+                <div class="header-box">
+                    <el-row type="flex" justify="space-between">
+                        <el-col :span="2">
+                            <button class="btn-tool" title="折叠" @click="collapse">
+                                <i class="el-icon-d-arrow-left"></i>
+                            </button>
+                        </el-col>
+                        <el-col>
+                            <el-menu class="el-menu-demo" background-color="#1890ff"
+                                     text-color="rgba(255,255,255,.8)"
+                                     active-text-color="#ffd04b" mode="horizontal" @select="handleSelect"
+                                     :default-active="currentBaseMenuId">
+                                <template v-for="(menu,index) in headerMenuList">
+                                    <el-menu-item :index=menu.id>{{menu.name}}</el-menu-item>
+                                </template>
+                            </el-menu>
+                        </el-col>
+                        <el-col :span="4" align="right">
+                            <button class="btn-tool" title="全屏" @click="fullScreen">
+                                <i class="el-icon-rank"></i>
+                            </button>
+                            <el-dropdown trigger="click" class="user-name" @command="handleCommand">
+          <span class="el-dropdown-link">
+            {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
+          </span>
+                                <el-dropdown-menu slot="dropdown">
+                                    <el-dropdown-item command="profile" divided>个人资料</el-dropdown-item>
+                                    <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-header>
+            <el-main>
+
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<link rel="stylesheet" type="text/css" href="css/index/index.css">
+<script type="text/javascript" tyep="module" src="js/index/index.js"></script>
+</body>
+</html>

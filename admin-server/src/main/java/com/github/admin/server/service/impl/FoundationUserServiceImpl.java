@@ -1,6 +1,6 @@
 package com.github.admin.server.service.impl;
 
-import com.github.admin.server.constant.SysUserState;
+import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.model.SysUser;
 import com.github.admin.server.service.SysUserService;
 import com.github.foundation.authentication.FoundationUserService;
@@ -32,7 +32,7 @@ public class FoundationUserServiceImpl implements FoundationUserService {
         foundationUser.setUserId(user.getId());
         foundationUser.setPassword(user.getPassword());
         foundationUser.setUserSalt(user.getSalt());
-        foundationUser.setIsValid(SysUserState.VALID.getVal().equals(user.getStatus()));
+        foundationUser.setIsValid(CommonState.VALID.getVal().equals(user.getStatus()));
         return foundationUser;
     }
 

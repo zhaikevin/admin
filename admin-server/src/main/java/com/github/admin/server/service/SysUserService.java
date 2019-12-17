@@ -2,7 +2,6 @@ package com.github.admin.server.service;
 
 import com.github.admin.server.dao.SysUserMapper;
 import com.github.admin.server.model.SysUser;
-import com.github.foundation.pagination.model.Pagination;
 import com.github.foundation.service.BaseService;
 
 /**
