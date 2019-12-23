@@ -32,7 +32,7 @@ public class FoundationUserServiceImpl implements FoundationUserService {
         foundationUser.setUserId(user.getId());
         foundationUser.setPassword(user.getPassword());
         foundationUser.setUserSalt(user.getSalt());
-        foundationUser.setIsValid(CommonState.VALID.getVal().equals(user.getStatus()));
+        foundationUser.setIsValid(CommonState.VALID.getVal().equals(user.getState()));
         return foundationUser;
     }
 

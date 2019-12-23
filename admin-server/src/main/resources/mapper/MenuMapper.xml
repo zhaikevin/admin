@@ -23,4 +23,10 @@
        ORDER BY sort_id
    </select>
 
+    <select id="getMenuTreeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+       SELECT id,`name`,code,url,parent_id
+       FROM sys_menu menu
+       WHERE id = #{menuId}
+   </select>
+
 </mapper>

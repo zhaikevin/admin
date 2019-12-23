@@ -27,4 +27,11 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @return
      */
     List<MenuTree> getBaseMenu(Long userId);
+
+    /**
+     * 根据id获取menuTree
+     * @param menuId
+     * @return
+     */
+    MenuTree getMenuTreeById(Long menuId);
 }

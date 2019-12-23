@@ -58,8 +58,8 @@ public class SysUser {
     /**
      * 状态  0：禁用   1：正常
      */
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "state")
+    private Integer state;
 
     /**
      * 创建人

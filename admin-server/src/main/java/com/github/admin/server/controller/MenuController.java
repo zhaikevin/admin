@@ -41,4 +41,14 @@ public class MenuController {
     public ResultInfo getBaseMenu() {
         return ResultInfo.success(menuService.getBaseMenu(authenticationManager.getUserId()));
     }
+
+    /**
+     * 根据id获取菜单
+     * @param menuId
+     * @return
+     */
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    public ResultInfo getById(@RequestParam(value = "menuId") Long menuId) {
+        return ResultInfo.success(menuService.getMenuTreeById(menuId));
+    }
 }

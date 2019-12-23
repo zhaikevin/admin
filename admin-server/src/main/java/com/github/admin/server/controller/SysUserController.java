@@ -33,7 +33,7 @@ public class SysUserController {
      * @param pageSize
      * @param sort
      * @param order
-     * @param status
+     * @param state
      * @param username
      * @return
      */
@@ -42,12 +42,12 @@ public class SysUserController {
                            @RequestParam(value = "pageSize") Integer pageSize,
                            @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
                            @RequestParam(value = "order", required = false, defaultValue = "desc") String order,
-                           @RequestParam(value = "status", required = false) Integer status,
+                           @RequestParam(value = "state", required = false) Integer state,
                            @RequestParam(value = "username", required = false) String username) {
         Sort sortObj = new Sort(new Order(Direction.fromString(order), sort));
         Pagination<SysUser> pagination = new Pagination<>(currentPage, pageSize, sortObj);
-        if (status != null) {
-            pagination.addParam(new SearchParams.Param("status", status, SearchParams.Compare.EQUAL));
+        if (state != null) {
+            pagination.addParam(new SearchParams.Param("state", state, SearchParams.Compare.EQUAL));
         }
         if (StringUtils.isNotBlank(username)) {
             pagination.addParam(new SearchParams.Param("username", username, SearchParams.Compare.LIKE));

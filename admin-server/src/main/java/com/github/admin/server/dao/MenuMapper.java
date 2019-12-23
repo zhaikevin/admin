@@ -26,4 +26,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return
      */
     List<MenuTree> getBaseMenu();
+
+    /**
+     * 根据id获取menuTree
+     * @param menuId
+     * @return
+     */
+    MenuTree getMenuTreeById(Long menuId);
 }

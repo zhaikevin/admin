@@ -53,7 +53,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
             log.error("encrypt password failed:{}", e.getMessage(), e);
             throw new BusinessException("注册用户失败");
         }
-        sysUser.setStatus(CommonState.VALID.getVal());
+        sysUser.setState(CommonState.VALID.getVal());
         sysUser.setCreator(sysUser.getUsername());
         sysUser.setModifier(sysUser.getUsername());
         sysUser.setCreateTime(DateUtils.now());

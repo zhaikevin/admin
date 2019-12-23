@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
+    <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: auto; border: 1px solid #eee;">
+        <el-main>
+            <el-form>
+                <el-row ref="form" :model="form">
+                    <el-col :span="5">
+                        <el-form-item label="用户名:" label-width="100px">
+                            <el-input v-model="form.username" placeholder="请输入用户名"/>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="5">
+                        <el-form-item label="状态:" label-width="100px">
+                            <el-select v-model="form.state" placeholder="请选择状态">
+                                <el-option v-for="item in stateOptions"
+                                           :key="item.val"
+                                           :label="item.label"
+                                           :value="item.val"/>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+
+                    <!-- 查询按钮 -->
+                    <el-col :span="4">
+                        <el-form-item>
+                            <el-button type="primary" size="small" @click="onQuerySubmit" icon="el-icon-search"
+                                       style="margin-left: 20px">查询
+                            </el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+
+
+            <el-table v-loading="listLoading"
+                      :data="tableData"
+                      element-loading-text="加载中..."
+                      border
+                      stripe
+                      fit
+                      style="width: auto;">
+
+                <el-table-column prop="id" label="ID" align="center"></el-table-column>
+                <el-table-column prop="username" label="用户名" align="center"></el-table-column>
+                <el-table-column prop="state" label="状态" align="center"
+                                 :formatter="formatterState"></el-table-column>
+                <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
+                <el-table-column prop="mobile" label="手机号" align="center"></el-table-column>
+                <el-table-column prop="creator" label="创建人" align="center"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" align="center" width="100px"
+                                 :formatter="formatterDate"></el-table-column>
+                <el-table-column prop="modifier" label="修改人" align="center" width="100px"
+                                 :formatter="formatterDate"></el-table-column>
+                <el-table-column prop="modifyTime" label="修改时间" align="center" width="100px"
+                                 :formatter="formatterDate"></el-table-column>
+                <el-table-column label="操作" align="center" width="260">
+                    <template slot-scope="scope">
+                        <el-button size="mini" type="info"
+                                   @click="handleLog(scope.$index, scope.row)">日&nbsp;志
+                        </el-button>
+                        <el-button size="mini" type="primary"
+                                   @click="handleKill(scope.$index, scope.row)">杀&nbsp;死
+                        </el-button>
+                        <el-button size="mini" type="warning"
+                                   @click="handleDelete(scope.$index, scope.row)">删&nbsp;除
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+            <el-row style="margin-top:20px;">
+                <el-pagination :current-page.sync="currentPage"
+                               :page-size="10"
+                               :page-sizes="[10, 20, 30, 40]"
+                               :total="total"
+                               background
+                               layout="total, sizes, prev, pager, next, jumper"
+                               @size-change="handleSizeChange"
+                               @current-change="handleCurrentChange"/>
+            </el-row>
+        </el-main>
+    </el-container>
+</div>
+<script type="text/javascript" src="../../js/user/userManager.js"></script>
+</body>
+</html>
