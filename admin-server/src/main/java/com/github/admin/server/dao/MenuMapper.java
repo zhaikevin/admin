@@ -33,4 +33,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return
      */
     MenuTree getMenuTreeById(Long menuId);
+
+    /**
+     * 根据code获取menuTree
+     * @param code
+     * @return
+     */
+    MenuTree getMenuTreeByCode(String code);
 }

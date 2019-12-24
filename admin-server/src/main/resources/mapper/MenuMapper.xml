@@ -29,4 +29,10 @@
        WHERE id = #{menuId}
    </select>
 
+    <select id="getMenuTreeByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+       SELECT id,`name`,code,url,parent_id
+       FROM sys_menu menu
+       WHERE code = #{code}
+   </select>
+
 </mapper>

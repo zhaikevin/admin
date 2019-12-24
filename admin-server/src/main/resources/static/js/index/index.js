@@ -7,7 +7,8 @@ var app = new Vue({
         headerMenuList: [],
         currentBaseMenuId: 1,
         editableTabs:[],
-        editableTabsValue:''
+        editableTabsValue:'',
+        activeIndex:''
     },
     mounted() {
         this.getHeaderMenuList();
@@ -55,34 +56,21 @@ var app = new Vue({
         collapse() {
             this.isCollapse = !this.isCollapse
         },
-        fullScreen() {
-            var isFull = document.isFullScreen || document.mozIsFullScreen || document.webkitIsFullScreen
-            // 判断是否全屏
-            if (isFull) {
-                var close = document.exitFullscreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || document.msExitFullscreen
-                close && close.call(document)
-            } else {
-                var docElm = document.documentElement
-                var open = docElm.requestFullScreen || docElm.webkitRequestFullScreen || docElm.mozRequestFullScreen || docElm.msRequestFullscreen
-                open && open.call(docElm)
-            }
-        },
         handleCommand (command) {
             switch (command) {
 
             }
         },
         handleSelect(index) {
-            this.currentBaseMenuId = index
-            this.getMenuList()
+            this.setBaseMenu(index)
         },
         handleMenuSelect(index) {
             var self = this;
-            Vue.http.get('./menu/getById',
+            Vue.http.get('./menu/getByCode',
                 {
                     params:
                         {
-                            menuId: index
+                            code: index
                         }
                 }
             ).then(function (res) {
@@ -105,10 +93,12 @@ var app = new Vue({
                         self.editableTabs.push({
                             title: menu.name,
                             code: newTabCode,
-                            url: menu.url
+                            url: menu.url,
+                            baseMenuId: self.currentBaseMenuId
                         })
                         self.editableTabsValue = newTabCode
                     }
+                    self.setActiveIndex(self.editableTabsValue)
                 } else {
                     self.$message.error(data.statusInfo)
                 }
@@ -118,17 +108,39 @@ var app = new Vue({
         },
         //标签页移除
         removeTab(targetCode) {
-            var tabs = this.editableTabs
+            var tabs = this.editableTabs.filter(function (tab) {
+                return tab.code != targetCode
+            })
             var activeCode = this.editableTabsValue
             if (activeCode === targetCode) {
                 if(tabs.length > 0) {
-                    activeCode = tabs[0].code
+                    activeCode = tabs[tabs.length-1].code
+                } else {
+                    activeCode = ''
                 }
             }
             this.editableTabsValue = activeCode
-            this.editableTabs = tabs.filter(function (tab) {
-                tab.code != targetCode
+            this.setActiveIndex(activeCode)
+            this.editableTabs = tabs
+        },
+        //点击标签页
+        clickTab(targetCode) {
+            this.setActiveIndex(targetCode.name)
+        },
+        setBaseMenu(index) {
+            this.currentBaseMenuId = index
+            this.getMenuList()
+        },
+        setActiveIndex(index) {
+            var tabs = this.editableTabs
+            var self = this
+            tabs.forEach(function (tab) {
+                if(tab.code === index) {
+                    self.setBaseMenu(tab.baseMenuId)
+                    return
+                }
             })
+            this.activeIndex = index;
         }
     }
 });

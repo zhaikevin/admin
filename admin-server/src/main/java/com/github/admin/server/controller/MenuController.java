@@ -51,4 +51,14 @@ public class MenuController {
     public ResultInfo getById(@RequestParam(value = "menuId") Long menuId) {
         return ResultInfo.success(menuService.getMenuTreeById(menuId));
     }
+
+    /**
+     * 根据code获取菜单
+     * @param code
+     * @return
+     */
+    @RequestMapping(value = "/getByCode", method = RequestMethod.GET)
+    public ResultInfo getById(@RequestParam(value = "code") String code) {
+        return ResultInfo.success(menuService.getMenuTreeByCode(code));
+    }
 }

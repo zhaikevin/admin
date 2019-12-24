@@ -39,6 +39,11 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         return menuMapper.getMenuTreeById(menuId);
     }
 
+    @Override
+    public MenuTree getMenuTreeByCode(String code) {
+        return menuMapper.getMenuTreeByCode(code);
+    }
+
     /**
      * 获取子菜单列表
      * @param parentMenuTree 父菜单
