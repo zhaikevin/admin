@@ -42,6 +42,11 @@ public class MenuTree implements Serializable {
     private Long parentId;
 
     /**
+     * icon
+     */
+    private String icon;
+
+    /**
      * 子节点
      */
     private List<MenuTree> children = new ArrayList<>();

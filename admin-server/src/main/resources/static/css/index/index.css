@@ -3,6 +3,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
+    background-color:  #fff;
 }
 
 .index-box .el-container {
@@ -11,29 +12,48 @@
 
 .index-box .el-container .el-main {
     height: 100%;
+    background-color: #f0f2f5;
+}
+
+.index-box .el-container .el-main .el-tabs {
+    background-color:  #fff;
 }
 
 .index-box .el-aside {
-    background-color: #20222A;
     height: 100vh;
     min-height: 100%;
 }
 
-.index-box .el-aside .logo {
-    background-color: #20222A;
+.index-box .el-aside .logo-div {
+    background-color: #1890ff;
     color: rgba(255, 255, 255, .8);
-    text-align: center;
+    text-align: left;
     height: 60px;
-    padding-top: 16px;
     font-size: 16px;
     box-sizing: border-box;
-    border-bottom: 1px solid gray;
 }
+
+.index-box .el-aside .logo-div .log-img {
+    padding-left: 20px;
+    width: 32px;
+    height: 32px;
+    padding-top: 14px;
+}
+
+.index-box .el-aside .logo-div .log-h1 {
+    font-size: 16px!important;
+    padding-left: 20px;
+    text-align: left;
+    padding-top: 5px;
+}
+
 .index-box .el-header {
     border-bottom: 1px solid #f6f6f6;
     box-sizing: border-box;
     background-color: #1890ff;
     line-height: 60px;
+    height: 61px!important;
+    padding-left: 0px;
 }
 
 
@@ -50,11 +70,13 @@
     border: none;
     background: transparent;
     font-size: 18px;
-    padding: 5px 10px;
+    padding: 5px 0px;
     cursor: pointer;
     outline: none;
-    text-align: left;
+    text-align: center;
+    color:rgba(255, 255, 255, 0.8);
 }
 .user-name {
     margin-left: 20px;
+    color:rgba(255, 255, 255, 0.8);
 }

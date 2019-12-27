@@ -71,6 +71,12 @@ public class Menu implements Serializable {
     private Integer isValid;
 
     /**
+     * icon
+     */
+    @Column(name = "icon")
+    private String icon;
+
+    /**
      * 系统id
      */
     @Column(name = "system_id")

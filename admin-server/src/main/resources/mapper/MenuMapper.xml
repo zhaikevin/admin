@@ -6,31 +6,32 @@
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
     </resultMap>
 
     <select id="getAll" resultMap="BaseResultMap">
-       SELECT id,`name`,code,url,parent_id
+       SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE is_valid = 1 and `type` = 1
        ORDER BY sort_id
    </select>
 
     <select id="getBaseMenu" resultMap="BaseResultMap">
-       SELECT id,`name`,code,url,parent_id
+       SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE is_valid = 1 and `type` = 1 and parent_id = 0
        ORDER BY sort_id
    </select>
 
     <select id="getMenuTreeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-       SELECT id,`name`,code,url,parent_id
+       SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE id = #{menuId}
    </select>
 
     <select id="getMenuTreeByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
-       SELECT id,`name`,code,url,parent_id
+       SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE code = #{code}
    </select>

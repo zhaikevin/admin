@@ -8,7 +8,8 @@ var app = new Vue({
         currentBaseMenuId: 1,
         editableTabs:[],
         editableTabsValue:'',
-        activeIndex:''
+        activeIndex:'',
+        showMain:false,
     },
     mounted() {
         this.getHeaderMenuList();
@@ -76,6 +77,7 @@ var app = new Vue({
             ).then(function (res) {
                 var data = res.body;
                 if (data.status === 0) {
+                    self.showMain = true
                     var menu = data.data
                     var flag = true
                     var tabs = self.editableTabs
@@ -108,6 +110,7 @@ var app = new Vue({
         },
         //标签页移除
         removeTab(targetCode) {
+            var self = this
             var tabs = this.editableTabs.filter(function (tab) {
                 return tab.code != targetCode
             })
@@ -117,6 +120,7 @@ var app = new Vue({
                     activeCode = tabs[tabs.length-1].code
                 } else {
                     activeCode = ''
+                    self.showMain = false
                 }
             }
             this.editableTabsValue = activeCode

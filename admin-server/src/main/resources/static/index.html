@@ -12,27 +12,29 @@
 <div id="app">
     <el-container class="index-box">
         <el-aside width="asideWidth">
-            <div class="logo">
-                <img v-show="!isCollapse" src="image/logo.png" alt="ELementUI" width="122" height="27">
+            <div class="logo-div">
+                <el-row type="flex" >
+                    <img class="log-img" src="image/logo.png">
+                    <h1 class="log-h1" v-show="!isCollapse">运维平台</h1>
+                </el-row>
             </div>
             <el-menu class="menu-nav"
-                     background-color="#20222A"
-                     text-color="rgba(255,255,255,.8)"
-                     active-text-color="#ffd04b"
-                     :collapse="isCollapse" :default-active="activeIndex" :unique-opened="true" @select="handleMenuSelect">
+                     active-text-color="#409EFF"
+                     :collapse="isCollapse" :default-active="activeIndex" :unique-opened="true"
+                     @select="handleMenuSelect">
                 <template v-for="(menu,index) in menuList">
                     <el-menu-item v-if="menu.children.length == 0" :index=menu.code>
-                        <i class="el-icon-menu"></i>
+                        <i :class=menu.icon></i>
                         <span slot="title">{{menu.name}}</span>
                     </el-menu-item>
                     <el-submenu v-if="menu.children.length > 0" :index=menu.code>
                         <template slot="title">
-                            <i class="el-icon-menu"></i>
+                            <i :class=menu.icon></i>
                             <span> {{menu.name}}</span>
                         </template>
                         <template v-for="subMenu in menu.children">
                             <el-menu-item :index=subMenu.code>
-                                <i class="el-icon-menu"></i>
+                                <i :class=subMenu.icon></i>
                                 <span slot="title">{{subMenu.name}}</span>
                             </el-menu-item>
                         </template>
@@ -44,9 +46,12 @@
             <el-header>
                 <div class="header-box">
                     <el-row type="flex" justify="space-between">
-                        <el-col :span="2">
-                            <button class="btn-tool" title="折叠" @click="collapse">
+                        <el-col :span="1">
+                            <button v-if="!isCollapse" class="btn-tool" title="折叠" @click="collapse">
                                 <i class="el-icon-d-arrow-left"></i>
+                            </button>
+                            <button v-if="isCollapse" class="btn-tool" title="展开" @click="collapse">
+                                <i class="el-icon-d-arrow-right"></i>
                             </button>
                         </el-col>
                         <el-col>
@@ -73,12 +78,12 @@
                     </el-row>
                 </div>
             </el-header>
-            <el-main>
+            <el-main v-if="showMain">
                 <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" @tab-click="clickTab">
                     <el-tab-pane v-for="(item, index) in editableTabs"
-                            :key="item.code"
-                            :label="item.title"
-                            :name="item.code">
+                                 :key="item.code"
+                                 :label="item.title"
+                                 :name="item.code">
                         <iframe :src="item.url" style="width: 100%;height: 450px" frameborder="0"></iframe>
                     </el-tab-pane>
                 </el-tabs>
