@@ -1,7 +1,7 @@
 var app = new Vue({
     el: "#app",
     data: {
-        username: 'kevin',
+        username: Cookies.get('user_name'),
         isCollapse: false,
         menuList: [],
         headerMenuList: [],
@@ -59,8 +59,34 @@ var app = new Vue({
         },
         handleCommand (command) {
             switch (command) {
-
+                case 'logout':this.logout()
             }
+        },
+        //退出登录
+        logout() {
+            var self = this;
+            this.$confirm('确认要退出登录？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(function () {
+                Vue.http.post('./user/logout',
+                    {
+
+                    }
+                ).then(function (res) {
+                    var data = res.body;
+                    if (data.status === 0) {
+                        window.location.href="login.html"
+                    } else {
+                        self.$message.error(data.statusInfo)
+                    }
+                }, function () {
+                    self.$message.error('退出登录异常');
+                });
+            }, function () {
+                return
+            })
         },
         handleSelect(index) {
             this.setBaseMenu(index)

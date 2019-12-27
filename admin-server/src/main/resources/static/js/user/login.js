@@ -2,7 +2,7 @@ var app = new Vue({
     el: "#app",
     data: {
         loginForm: {
-            username:'',
+            username: '',
             password: '',
         },
         loginRules: {
@@ -33,14 +33,13 @@ var app = new Vue({
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        self.$message.success("欢迎回来")
-                        window.location.href="index.html"
+                        window.location.href = "index.html"
                     } else {
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('登录异常');
-                });
+                    self.$message.error('登录异常')
+                })
             })
         }
     }
