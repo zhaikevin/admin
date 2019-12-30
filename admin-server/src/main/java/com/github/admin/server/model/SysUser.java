@@ -1,5 +1,6 @@
 package com.github.admin.server.model;
 
+import com.github.foundation.service.annotations.ExcludeByPage;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -35,12 +36,14 @@ public class SysUser {
      * 密码
      */
     @Column(name = "password")
+    @ExcludeByPage
     private String password;
 
     /**
      * 盐
      */
     @Column(name = "salt")
+    @ExcludeByPage
     private String salt;
 
     /**
