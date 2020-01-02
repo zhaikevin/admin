@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" type="text/css" href="element-ui/css/index.css">
+    <script type="text/javascript" src="element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="element-ui/js/index.js"></script>
+</head>
+<body>
+<div id="app" class="register-container">
+    <el-form :model="registerForm" :rules="registerRules" ref="registerForm" label-position="left"
+             label-width="120px" class="demo-ruleForm register-page">
+        <h3 align="center">用户注册</h3>
+        <el-form-item label="用户名" prop="username">
+            <el-input type="text" v-model="registerForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+            <el-input type="password" v-model="registerForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+            <el-input type="text" v-model="registerForm.email" auto-complete="off" placeholder="请输入邮箱"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="mobile">
+            <el-input type="text" v-model="registerForm.mobile" auto-complete="off" placeholder="请输入手机号"></el-input>
+        </el-form-item>
+        <el-form-item style="width:100%">
+            <el-button type="primary" style="width:100%"  @click="submitForm('registerForm')" :loading="register">注册</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<link rel="stylesheet" type="text/css" href="css/user/register.css">
+<script type="text/javascript" tyep="module" src="js/user/register.js"></script>
+</body>
+</html>

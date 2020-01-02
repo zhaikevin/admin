@@ -14,7 +14,7 @@
     <el-container class="index-box">
         <el-aside width="asideWidth">
             <div class="logo-div">
-                <el-row type="flex" >
+                <el-row type="flex">
                     <img class="log-img" src="image/logo.png">
                     <h1 class="log-h1" v-show="!isCollapse">运维平台</h1>
                 </el-row>
@@ -23,24 +23,7 @@
                      active-text-color="#409EFF"
                      :collapse="isCollapse" :default-active="activeIndex" :unique-opened="true"
                      @select="handleMenuSelect">
-                <template v-for="(menu,index) in menuList">
-                    <el-menu-item v-if="menu.children.length == 0" :index=menu.code>
-                        <i :class=menu.icon></i>
-                        <span slot="title">{{menu.name}}</span>
-                    </el-menu-item>
-                    <el-submenu v-if="menu.children.length > 0" :index=menu.code>
-                        <template slot="title">
-                            <i :class=menu.icon></i>
-                            <span> {{menu.name}}</span>
-                        </template>
-                        <template v-for="subMenu in menu.children">
-                            <el-menu-item :index=subMenu.code>
-                                <i :class=subMenu.icon></i>
-                                <span slot="title">{{subMenu.name}}</span>
-                            </el-menu-item>
-                        </template>
-                    </el-submenu>
-                </template>
+                <menu-item :menu="item" v-for="item in menuList"></menu-item>
             </el-menu>
         </el-aside>
         <el-container>
@@ -67,9 +50,9 @@
                         </el-col>
                         <el-col :span="4" align="right">
                             <el-dropdown trigger="click" class="user-name" @command="handleCommand">
-          <span class="el-dropdown-link">
-            {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
-          </span>
+                                <span class="el-dropdown-link">
+                                    {{ username }}<i class="el-icon-caret-bottom el-icon--right"></i>
+                                </span>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item command="profile" divided>个人资料</el-dropdown-item>
                                     <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>

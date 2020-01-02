@@ -1,3 +1,26 @@
+var menuItem = Vue.extend({
+    name: 'menu-item',
+    props: {menu:{}},
+    template:[
+        '<li>',
+        '<el-menu-item v-if="menu.children.length == 0" :index=menu.code>',
+            '<i :class=menu.icon></i>',
+            '<span slot="title">{{menu.name}}</span>',
+        '</el-menu-item>',
+        '<el-submenu v-if="menu.children.length > 0" :index=menu.code>',
+            '<template slot="title">',
+                '<i :class=menu.icon></i>',
+                '<span> {{menu.name}}</span>',
+            '</template>',
+            '<menu-item :menu="item" v-for="item in menu.children"></menu-item>',
+        '</el-submenu>',
+        '</li>',
+    ].join('')
+})
+
+//菜单组件
+Vue.component('menuItem', menuItem)
+
 var app = new Vue({
     el: "#app",
     data: {
@@ -6,10 +29,10 @@ var app = new Vue({
         menuList: [],
         headerMenuList: [],
         currentBaseMenuId: 1,
-        editableTabs:[],
-        editableTabsValue:'',
-        activeIndex:'',
-        showMain:false,
+        editableTabs: [],
+        editableTabsValue: '',
+        activeIndex: '',
+        showMain: false,
     },
     mounted() {
         this.getHeaderMenuList();
@@ -24,7 +47,7 @@ var app = new Vue({
                 var data = res.body;
                 if (data.status === 0) {
                     self.headerMenuList = data.data
-                    if(data.data.length > 0) {
+                    if (data.data.length > 0) {
                         self.currentBaseMenuId = data.data[0].id
                     }
                 } else {
@@ -57,9 +80,10 @@ var app = new Vue({
         collapse() {
             this.isCollapse = !this.isCollapse
         },
-        handleCommand (command) {
+        handleCommand(command) {
             switch (command) {
-                case 'logout':this.logout()
+                case 'logout':
+                    this.logout()
             }
         },
         //退出登录
@@ -71,13 +95,11 @@ var app = new Vue({
                 type: 'warning'
             }).then(function () {
                 Vue.http.post('./user/logout',
-                    {
-
-                    }
+                    {}
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        window.location.href="login.html"
+                        window.location.href = "login.html"
                     } else {
                         self.$message.error(data.statusInfo)
                     }
@@ -108,7 +130,7 @@ var app = new Vue({
                     var flag = true
                     var tabs = self.editableTabs
                     tabs.forEach(function (tab, index) {
-                        if(tab.code === menu.code) {
+                        if (tab.code === menu.code) {
                             //如果打开则选中
                             self.editableTabsValue = tab.code
                             flag = false
@@ -142,8 +164,8 @@ var app = new Vue({
             })
             var activeCode = this.editableTabsValue
             if (activeCode === targetCode) {
-                if(tabs.length > 0) {
-                    activeCode = tabs[tabs.length-1].code
+                if (tabs.length > 0) {
+                    activeCode = tabs[tabs.length - 1].code
                 } else {
                     activeCode = ''
                     self.showMain = false
@@ -165,7 +187,7 @@ var app = new Vue({
             var tabs = this.editableTabs
             var self = this
             tabs.forEach(function (tab) {
-                if(tab.code === index) {
+                if (tab.code === index) {
                     self.setBaseMenu(tab.baseMenuId)
                     return
                 }

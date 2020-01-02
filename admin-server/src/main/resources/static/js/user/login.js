@@ -19,10 +19,12 @@ var app = new Vue({
     },
     methods: {
         submitForm(formName) {
+            this.loading = true
             var self = this;
             var form = this.$refs[formName];
             form.validate(function (valid) {
                 if (!valid) {
+                    self.loading = false
                     return false;
                 }
                 Vue.http.post('./user/login',
@@ -33,14 +35,20 @@ var app = new Vue({
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
+                        self.loading = false
                         window.location.href = "index.html"
                     } else {
                         self.$message.error(data.statusInfo)
+                        self.loading = false
                     }
                 }, function () {
                     self.$message.error('登录异常')
+                    self.loading = false
                 })
             })
+        },
+        register() {
+            window.location.href = "register.html"
         }
     }
 });
