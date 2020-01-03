@@ -1,9 +1,3 @@
-/*
- * @Description: job.js
- * @Author: yifei.bai yifei.bai@luckincoffee.com
- * @Date: 2019/4/25 15:36
- */
-//主要内容
 var app = new Vue({
     el: "#app",
     data: {
