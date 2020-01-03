@@ -2,19 +2,17 @@ var menuItem = Vue.extend({
     name: 'menu-item',
     props: {menu:{}},
     template:[
-        '<li>',
         '<el-menu-item v-if="menu.children.length == 0" :index=menu.code>',
             '<i :class=menu.icon></i>',
             '<span slot="title">{{menu.name}}</span>',
         '</el-menu-item>',
-        '<el-submenu v-if="menu.children.length > 0" :index=menu.code>',
+        '<el-submenu v-else :index=menu.code>',
             '<template slot="title">',
                 '<i :class=menu.icon></i>',
                 '<span> {{menu.name}}</span>',
             '</template>',
             '<menu-item :menu="item" v-for="item in menu.children"></menu-item>',
-        '</el-submenu>',
-        '</li>',
+        '</el-submenu>'
     ].join('')
 })
 
