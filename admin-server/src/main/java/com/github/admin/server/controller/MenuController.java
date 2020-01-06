@@ -61,4 +61,13 @@ public class MenuController {
     public ResultInfo getById(@RequestParam(value = "code") String code) {
         return ResultInfo.success(menuService.getMenuTreeByCode(code));
     }
+
+    /**
+     * 获取整个菜单树
+     * @return
+     */
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResultInfo getAll() {
+        return ResultInfo.success(menuService.getAll());
+    }
 }

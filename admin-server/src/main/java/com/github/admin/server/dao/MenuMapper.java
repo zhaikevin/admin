@@ -16,10 +16,10 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     /**
-     * 获取所有
+     * 获取所有有效的菜单，不包括按钮
      * @return
      */
-    List<MenuTree> getAll();
+    List<MenuTree> getAllValidMenu();
 
     /**
      * 获取根目录
@@ -40,4 +40,10 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return
      */
     MenuTree getMenuTreeByCode(String code);
+
+    /**
+     * 获取所有
+     * @return
+     */
+    List<MenuTree> getAll();
 }

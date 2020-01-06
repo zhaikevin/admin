@@ -10,7 +10,7 @@
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
     </resultMap>
 
-    <select id="getAll" resultMap="BaseResultMap">
+    <select id="getAllValidMenu" resultMap="BaseResultMap">
        SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE is_valid = 1 and `type` = 1
@@ -34,6 +34,12 @@
        SELECT id,`name`,code,url,icon,parent_id
        FROM sys_menu menu
        WHERE code = #{code}
+   </select>
+
+    <select id="getAll" resultMap="BaseResultMap">
+       SELECT id,`name`,code,url,icon,parent_id
+       FROM sys_menu menu
+       ORDER BY sort_id
    </select>
 
 </mapper>

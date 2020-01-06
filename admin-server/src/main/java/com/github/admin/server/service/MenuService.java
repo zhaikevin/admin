@@ -41,4 +41,10 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @return
      */
     MenuTree getMenuTreeByCode(String code);
+
+    /**
+     * 获取整个菜单树
+     * @return
+     */
+    List<MenuTree> getAll();
 }

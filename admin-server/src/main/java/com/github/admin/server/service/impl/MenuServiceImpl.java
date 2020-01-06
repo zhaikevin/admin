@@ -8,6 +8,7 @@ import com.github.foundation.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +19,15 @@ import java.util.List;
 @Service
 public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implements MenuService {
 
+    //根节点的父节点为0
+    private static final Long ROOT_PARENT_ID = 0L;
+
     @Autowired
     private MenuMapper menuMapper;
 
     @Override
     public List<MenuTree> getByParentId(Long userId, Long parentId) {
-        List<MenuTree> list = menuMapper.getAll();
+        List<MenuTree> list = menuMapper.getAllValidMenu();
         MenuTree baseMenu = convert(getById(parentId));
         getSubMenuList(baseMenu, list, userId);
         return baseMenu.getChildren();
@@ -44,11 +48,25 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         return menuMapper.getMenuTreeByCode(code);
     }
 
+    @Override
+    public List<MenuTree> getAll() {
+        List<MenuTree> list = menuMapper.getAll();
+        List<MenuTree> result = new ArrayList<>();
+        for(MenuTree menuTree : list) {
+            //父节点
+            if(menuTree.getParentId().equals(ROOT_PARENT_ID)) {
+                result.add(menuTree);
+                getSubMenuList(menuTree,list,null);
+            }
+        }
+        return result;
+    }
+
     /**
      * 获取子菜单列表
      * @param parentMenuTree 父菜单
      * @param list           菜单列表
-     * @param userId         用户id
+     * @param userId         用户id，为空不用判断
      */
     private void getSubMenuList(MenuTree parentMenuTree, List<MenuTree> list, Long userId) {
         for (MenuTree menuTree : list) {
