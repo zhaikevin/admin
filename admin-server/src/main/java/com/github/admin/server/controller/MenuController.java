@@ -1,9 +1,11 @@
 package com.github.admin.server.controller;
 
+import com.github.admin.server.model.Menu;
 import com.github.admin.server.service.MenuService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,6 +70,16 @@ public class MenuController {
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResultInfo getAll() {
-        return ResultInfo.success(menuService.getAll());
+        return ResultInfo.success(menuService.getAllMenu());
+    }
+
+    /**
+     * 创建菜单
+     * @return
+     */
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResultInfo create(@RequestBody Menu menu) {
+        menuService.create(menu);
+        return ResultInfo.success();
     }
 }

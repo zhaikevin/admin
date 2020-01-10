@@ -1,14 +1,19 @@
 package com.github.admin.server.service.impl;
 
+import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
 import com.github.admin.server.model.vo.MenuTree;
 import com.github.admin.server.service.MenuService;
+import com.github.foundation.authentication.AuthenticationManager;
+import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +29,9 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public List<MenuTree> getByParentId(Long userId, Long parentId) {
@@ -49,17 +57,32 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     }
 
     @Override
-    public List<MenuTree> getAll() {
+    public List<MenuTree> getAllMenu() {
         List<MenuTree> list = menuMapper.getAll();
         List<MenuTree> result = new ArrayList<>();
-        for(MenuTree menuTree : list) {
+        for (MenuTree menuTree : list) {
             //父节点
-            if(menuTree.getParentId().equals(ROOT_PARENT_ID)) {
+            if (menuTree.getParentId().equals(ROOT_PARENT_ID)) {
                 result.add(menuTree);
-                getSubMenuList(menuTree,list,null);
+                getSubMenuList(menuTree, list, null);
             }
         }
         return result;
+    }
+
+    @Override
+    public void create(Menu menu) {
+        Example example = new Example(Menu.class);
+        example.createCriteria().andEqualTo("code", menu.getCode());
+        if (menuMapper.selectOneByExample(example) != null) {
+            throw new BusinessException("菜单编码不能重复");
+        }
+        menu.setIsValid(CommonState.VALID.getVal());
+        menu.setCreator(authenticationManager.getUserName());
+        menu.setCreateTime(new Date());
+        menu.setModifier(authenticationManager.getUserName());
+        menu.setModifyTime(new Date());
+        menuMapper.insertUseGeneratedKeys(menu);
     }
 
     /**

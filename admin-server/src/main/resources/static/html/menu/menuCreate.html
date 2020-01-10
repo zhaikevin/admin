@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
+    <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+</head>
+<body>
+    <div id="app">
+        <el-form :model="createForm" :rules="createRules" ref="createForm" label-width="120px">
+            <el-form-item label="菜单类型：" prop="type">
+                <el-radio-group v-model="createForm.type" :disabled="typeDisabled">
+                    <el-radio :label="1">菜单</el-radio>
+                    <el-radio :label="2">按钮</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="菜单名称：" prop="name">
+                <el-input v-model="createForm.name" placeholder="请输入菜单名称" ></el-input>
+            </el-form-item>
+            <el-form-item label="菜单编码：" prop="code">
+                <el-input v-model="createForm.code" placeholder="请输入菜单编码"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单路径：" prop="url">
+                <el-input v-model="createForm.url" placeholder="请输入菜单路径"></el-input>
+            </el-form-item>
+            <el-form-item label="父菜单：" v-if="createForm.parentId!=0">
+                <el-input v-model="parentName" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="所属系统：" prop="systemId">
+                <el-select v-model="createForm.systemId"  placeholder="请选择系统">
+                    <el-option v-for="item in systemList" :key="item.id" :label="item.name" :value="item.id"/>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="菜单图标：" prop="icon">
+                <el-select v-model="createForm.icon"  placeholder="请选择菜单图标">
+                    <el-option v-for="item in iconList" :key="item.key" :label="item.label" :value="item.label"/>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="菜单排序：" prop="sortId">
+                <el-input-number v-model="createForm.sortId" :min="1" :max="100"></el-input-number>
+            </el-form-item>
+            <el-form-item label="菜单描述：" prop="remark">
+                <el-input type="textarea" :rows="4" v-model="createForm.remark"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" size="small" @click="submitForm('createForm')">创建</el-button>
+                <el-button type="primary" size="small" @click="resetForm('createForm')">重置</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+<script type="text/javascript" src="../../js/menu/menuCreate.js"></script>
+</body>
+</html>

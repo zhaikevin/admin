@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
+    <title>菜单管理</title>
     <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
     <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
     <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
@@ -12,7 +12,27 @@
 <div id="app">
     <el-container style="height: auto; border: 1px solid #eee;">
         <el-main>
-            <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+            <div style="margin-bottom: 20px">
+                <el-button type="primary" size="small" @click="showCreateDialog" :disabled="createDisabled"
+                           style="margin-left: 10px">新建
+                </el-button>
+                <el-button type="primary" size="small" @click="showCreateDialog"
+                           style="margin-left: 10px">编辑
+                </el-button>
+                <el-button type="primary" size="small" @click="showCreateDialog"
+                           style="margin-left: 10px">删除
+                </el-button>
+            </div>
+            <el-tree :data="data" :props="defaultProps" highlight-current show-checkbox check-strictly
+                     node-key="code" ref="tree" @check-change="handleClick"></el-tree>
+            <el-dialog title="新建菜单"
+                       before-close="beforeCreateCloseDialog"
+                       close-on-click-modal="false"
+                       :visible.sync="createDialog">
+                <span>
+                    <iframe :src="createUrl" width="100%" height="350px" style="border:0px"></iframe>
+                </span>
+            </el-dialog>
         </el-main>
     </el-container>
 </div>
