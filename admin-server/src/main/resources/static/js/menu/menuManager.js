@@ -8,6 +8,8 @@ var app = new Vue({
         data: [],
         createDialog: false,
         createUrl: '',
+        modifyDialog: false,
+        modifyUrl: '',
         checkedId: 0,
         checkedName: '',
         createDisabled: false
@@ -19,9 +21,7 @@ var app = new Vue({
         fetchData() {
             var self = this;
             Vue.http.get('../../menu/all',
-                {
-
-                }
+                {}
             ).then(function (res) {
                 var data = res.body
                 if (data.status === 0) {
@@ -33,16 +33,16 @@ var app = new Vue({
                 self.$message.error('获取菜单异常')
             });
         },
-        handleClick(data,checked, node){
-            if(checked){
+        handleClick(data, checked, node) {
+            if (checked) {
                 this.$refs.tree.setCheckedNodes([data])
             }
             var nodes = this.$refs.tree.getCheckedNodes()
-            if(nodes.length > 0) {
+            if (nodes.length > 0) {
                 var node = nodes[0]
                 this.checkedId = node.id
                 this.checkedName = node.name
-                if(node.type === 2) {
+                if (node.type === 2) {
                     this.createDisabled = true
                 } else {
                     this.createDisabled = false
@@ -53,12 +53,19 @@ var app = new Vue({
                 this.createDisabled = false
             }
         },
-        beforeCreateCloseDialog(done) {
+        beforeCreateCloseDialog() {
             this.createUrl = ''
         },
-        showCreateDialog: function () {
-            this.createDialog = true;
-            this.createUrl = 'menuCreate.html?new=' + Math.random();
+        showCreateDialog() {
+            this.createDialog = true
+            this.createUrl = 'menuCreate.html?new=' + Math.random()
         },
+        showModifyDialog() {
+            this.modifyDialog = true
+            this.modifyUrl = 'menuModify.html?new=' + Math.random()
+        },
+        beforeModifyCloseDialog() {
+            this.modifyUrl = ''
+        }
     }
 });

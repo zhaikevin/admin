@@ -10,7 +10,8 @@ var app = new Vue({
             systemId: '',
             icon: 'el-icon-document',
             sortId: 1,
-            remark: ''
+            remark: '',
+            isValid:1
         },
         typeDisabled: false,
         parentName: '',
@@ -28,6 +29,9 @@ var app = new Vue({
         createRules: {
             type: [
                 {required: true, message: '请选择类型', trigger: 'change'}
+            ],
+            isValid: [
+                {required: true, message: '请选择状态', trigger: 'change'}
             ],
             name: [
                 {required: true, message: '请输入菜单名称', trigger: 'blur'}
@@ -93,6 +97,7 @@ var app = new Vue({
                         icon:self.createForm.icon,
                         sortId:self.createForm.sortId,
                         remark:self.createForm.remark,
+                        isValid:self.createForm.isValid,
                     }
                 ).then(function (res) {
                     var data = res.body;

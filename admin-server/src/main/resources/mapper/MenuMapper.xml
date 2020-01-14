@@ -12,35 +12,60 @@
     </resultMap>
 
     <select id="getAllValidMenu" resultMap="BaseResultMap">
-       SELECT id,`name`,code,url,icon,parent_id,`type`
-       FROM sys_menu menu
-       WHERE is_valid = 1 and `type` = 1
-       ORDER BY sort_id
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       case when m.url =''  then ''
+            when m.url is null then ''
+            else  CONCAT(s.url,m.url)
+       end as url
+       FROM sys_menu m
+       INNER JOIN sys_system s ON m.system_id = s.id
+       WHERE m.is_valid = 1 and m.`type` = 1
+       ORDER BY m.sort_id
    </select>
 
     <select id="getBaseMenu" resultMap="BaseResultMap">
-       SELECT id,`name`,code,url,icon,parent_id,`type`
-       FROM sys_menu menu
-       WHERE is_valid = 1 and `type` = 1 and parent_id = 0
-       ORDER BY sort_id
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       case when m.url =''  then ''
+            when m.url is null then ''
+            else  CONCAT(s.url,m.url)
+       end as url
+       FROM sys_menu m
+       INNER JOIN sys_system s ON m.system_id = s.id
+       WHERE m.is_valid = 1 and m.`type` = 1 and m.parent_id = 0
+       ORDER BY m.sort_id
    </select>
 
     <select id="getMenuTreeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-       SELECT id,`name`,code,url,icon,parent_id,`type`
-       FROM sys_menu menu
-       WHERE id = #{menuId}
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       case when m.url =''  then ''
+            when m.url is null then ''
+            else  CONCAT(s.url,m.url)
+       end as url
+       FROM sys_menu m
+       INNER JOIN sys_system s ON m.system_id = s.id
+       WHERE m.id = #{menuId}
    </select>
 
     <select id="getMenuTreeByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
-       SELECT id,`name`,code,url,icon,parent_id,`type`
-       FROM sys_menu menu
-       WHERE code = #{code}
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       case when m.url =''  then ''
+            when m.url is null then ''
+            else  CONCAT(s.url,m.url)
+       end as url
+       FROM sys_menu m
+       INNER JOIN sys_system s ON m.system_id = s.id
+       WHERE m.code = #{code}
    </select>
 
     <select id="getAll" resultMap="BaseResultMap">
-       SELECT id,`name`,code,url,icon,parent_id,`type`
-       FROM sys_menu menu
-       ORDER BY sort_id
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       case when m.url =''  then ''
+            when m.url is null then ''
+            else  CONCAT(s.url,m.url)
+       end as url
+       FROM sys_menu m
+       INNER JOIN sys_system s ON m.system_id = s.id
+       ORDER BY m.sort_id
    </select>
 
 </mapper>

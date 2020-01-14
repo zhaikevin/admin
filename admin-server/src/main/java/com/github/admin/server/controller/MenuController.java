@@ -51,7 +51,7 @@ public class MenuController {
      */
     @RequestMapping(value = "/getById", method = RequestMethod.GET)
     public ResultInfo getById(@RequestParam(value = "menuId") Long menuId) {
-        return ResultInfo.success(menuService.getMenuTreeById(menuId));
+        return ResultInfo.success(menuService.getById(menuId));
     }
 
     /**
@@ -80,6 +80,17 @@ public class MenuController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResultInfo create(@RequestBody Menu menu) {
         menuService.create(menu);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 修改菜单
+     * @param menu
+     * @return
+     */
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ResultInfo modify(@RequestBody Menu menu) {
+        menuService.modify(menu);
         return ResultInfo.success();
     }
 }

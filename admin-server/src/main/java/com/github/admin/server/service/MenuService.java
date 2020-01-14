@@ -53,4 +53,10 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @param menu
      */
     void create(Menu menu);
+
+    /**
+     * 修改菜单
+     * @param menu
+     */
+    void modify(Menu menu);
 }

@@ -77,12 +77,25 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         if (menuMapper.selectOneByExample(example) != null) {
             throw new BusinessException("菜单编码不能重复");
         }
-        menu.setIsValid(CommonState.VALID.getVal());
         menu.setCreator(authenticationManager.getUserName());
         menu.setCreateTime(new Date());
         menu.setModifier(authenticationManager.getUserName());
         menu.setModifyTime(new Date());
         menuMapper.insertUseGeneratedKeys(menu);
+    }
+
+    @Override
+    public void modify(Menu menu) {
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("code", menu.getCode());
+        criteria.andNotEqualTo("id", menu.getId());
+        if (menuMapper.selectOneByExample(example) != null) {
+            throw new BusinessException("菜单编码不能重复");
+        }
+        menu.setModifier(authenticationManager.getUserName());
+        menu.setModifyTime(new Date());
+        menuMapper.updateByPrimaryKeySelective(menu);
     }
 
     /**
