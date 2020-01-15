@@ -62,7 +62,7 @@ public class Menu implements Serializable {
      * 父菜单id
      */
     @Column(name = "parent_id")
-    private String parentId;
+    private Long parentId;
 
     /**
      * 是否有效

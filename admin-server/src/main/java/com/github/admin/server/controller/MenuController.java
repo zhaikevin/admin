@@ -5,6 +5,7 @@ import com.github.admin.server.service.MenuService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,7 +28,7 @@ public class MenuController {
     private MenuService menuService;
 
     /**
-     * 根据用户获取菜单
+     * 根据用户获取菜单，左侧目录
      * @param parentId
      * @return
      */
@@ -37,7 +38,7 @@ public class MenuController {
     }
 
     /**
-     * 获取跟目录
+     * 获取跟目录，顶层目录
      */
     @RequestMapping(value = "/getBaseMenu", method = RequestMethod.GET)
     public ResultInfo getBaseMenu() {
@@ -45,7 +46,7 @@ public class MenuController {
     }
 
     /**
-     * 根据id获取菜单
+     * 根据id获取菜单详情，返回对象是menu
      * @param menuId
      * @return
      */
@@ -55,7 +56,7 @@ public class MenuController {
     }
 
     /**
-     * 根据code获取菜单
+     * 根据code获取菜单，返回对象是menuTree
      * @param code
      * @return
      */
@@ -65,7 +66,7 @@ public class MenuController {
     }
 
     /**
-     * 获取整个菜单树
+     * 获取整个菜单树，用于菜单管理页面菜单树的展示，菜单、按钮；有效、无效都展示
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -93,4 +94,25 @@ public class MenuController {
         menuService.modify(menu);
         return ResultInfo.success();
     }
+
+    /**
+     * 删除菜单
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
+    public ResultInfo delete(@PathVariable(value = "id") Long id) {
+        menuService.delete(id);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 获取所有有效的菜单，不包括按钮
+     * @return
+     */
+    @RequestMapping(value = "/getAllValidMenu", method = RequestMethod.GET)
+    public ResultInfo getAllValidMenu() {
+        return ResultInfo.success(menuService.getAllValidMenu());
+    }
+
 }

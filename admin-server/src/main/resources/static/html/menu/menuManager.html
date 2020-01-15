@@ -16,10 +16,10 @@
                 <el-button type="primary" size="small" @click="showCreateDialog" :disabled="createDisabled"
                            style="margin-left: 10px">新建
                 </el-button>
-                <el-button type="primary" size="small" @click="showModifyDialog"
+                <el-button type="primary" size="small" @click="showModifyDialog" :disabled="modifyDisabled"
                            style="margin-left: 10px">编辑
                 </el-button>
-                <el-button type="primary" size="small" @click="showCreateDialog"
+                <el-button type="primary" size="small" @click="deleteMenu" :disabled="modifyDisabled"
                            style="margin-left: 10px">删除
                 </el-button>
             </div>

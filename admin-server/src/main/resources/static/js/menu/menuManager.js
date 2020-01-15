@@ -12,7 +12,8 @@ var app = new Vue({
         modifyUrl: '',
         checkedId: 0,
         checkedName: '',
-        createDisabled: false
+        createDisabled: false,
+        modifyDisabled: true,
     },
     mounted() {
         this.fetchData();
@@ -47,10 +48,12 @@ var app = new Vue({
                 } else {
                     this.createDisabled = false
                 }
+                this.modifyDisabled = false
             } else {
                 this.checkedId = 0
                 this.checkedName = ''
                 this.createDisabled = false
+                this.modifyDisabled = true
             }
         },
         beforeCreateCloseDialog() {
@@ -66,6 +69,30 @@ var app = new Vue({
         },
         beforeModifyCloseDialog() {
             this.modifyUrl = ''
+        },
+        deleteMenu() {
+            var self = this
+            this.$confirm('此操作将删除该菜单和子菜单，是否继续？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                Vue.http.post('../../menu/delete/' + self.checkedId,
+                    {}
+                ).then(function (res) {
+                    var data = res.body;
+                    if (data.status === 0) {
+                        self.fetchData()
+                    } else {
+                        self.$message.error(data.statusInfo)
+                    }
+                }, function () {
+                    self.$message.error('删除菜单异常');
+                });
+            }, function () {
+                return
+            })
         }
     }
 });

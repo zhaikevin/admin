@@ -12,7 +12,7 @@
     <div id="app">
         <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="120px">
             <el-form-item label="菜单类型：" prop="type">
-                <el-radio-group v-model="modifyForm.type" :disabled="typeDisabled">
+                <el-radio-group v-model="modifyForm.type">
                     <el-radio :label="1">菜单</el-radio>
                     <el-radio :label="2">按钮</el-radio>
                 </el-radio-group>
@@ -26,8 +26,10 @@
             <el-form-item label="菜单路径：" prop="url">
                 <el-input v-model="modifyForm.url" placeholder="请输入菜单路径"></el-input>
             </el-form-item>
-            <el-form-item label="父菜单：" v-if="modifyForm.parentId!=0">
-                <el-input v-model="parentName" disabled></el-input>
+            <el-form-item label="父菜单：" prop="parentId">
+                <el-select v-model="modifyForm.parentId"  placeholder="请选择父菜单">
+                    <el-option v-for="item in menuList" :key="item.id" :label="item.name" :value="item.id"/>
+                </el-select>
             </el-form-item>
             <el-form-item label="所属系统：" prop="systemId">
                 <el-select v-model="modifyForm.systemId"  placeholder="请选择系统">

@@ -14,8 +14,7 @@ var app = new Vue({
             remark: '',
             isValid:1
         },
-        typeDisabled: false,
-        parentName: '',
+        menuList:[],
         systemList: [],
         iconList: [
             {key: 'el-icon-date', label: 'el-icon-date'},
@@ -49,24 +48,13 @@ var app = new Vue({
         }
     },
     created() {
+        this.fetchParentMenuList();
         this.fetchSystem();
     },
     mounted() {
         this.fetchMenuInfo();
-        this.init();
     },
     methods: {
-        init() {
-            var parentId = window.parent.app.checkedId
-            if (parentId == 0) {
-                this.modifyForm.type = 1
-                this.typeDisabled = true
-            } else {
-                this.typeDisabled = false
-            }
-            this.modifyForm.parentId = parentId
-            this.parentName = window.parent.app.checkedName
-        },
         fetchMenuInfo() {
             var self = this;
             Vue.http.get('../../menu/getById',
@@ -90,6 +78,28 @@ var app = new Vue({
                     self.modifyForm.sortId = data.data.sortId
                     self.modifyForm.remark = data.data.remark
                     self.modifyForm.isValid = data.data.isValid
+                } else {
+                    self.$message.error(data.statusInfo)
+                }
+            }, function () {
+                self.$message.error('获取菜单异常');
+            });
+        },
+        fetchParentMenuList() {
+            var self = this;
+            Vue.http.get('../../menu/getAllValidMenu',
+                {
+                }
+            ).then(function (res) {
+                var data = res.body;
+                if (data.status === 0) {
+                    self.menuList = data.data
+                    self.menuList.unshift(
+                        {
+                            'id': 0,
+                            'name': '根目录'
+                        }
+                    )
                 } else {
                     self.$message.error(data.statusInfo)
                 }

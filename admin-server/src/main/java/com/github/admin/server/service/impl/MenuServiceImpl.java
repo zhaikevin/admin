@@ -1,6 +1,7 @@
 package com.github.admin.server.service.impl;
 
 import com.github.admin.server.constant.CommonState;
+import com.github.admin.server.constant.MenuType;
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
 import com.github.admin.server.model.vo.MenuTree;
@@ -10,6 +11,7 @@ import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
@@ -96,6 +98,25 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         menu.setModifier(authenticationManager.getUserName());
         menu.setModifyTime(new Date());
         menuMapper.updateByPrimaryKeySelective(menu);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        menuMapper.deleteByPrimaryKey(id);
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("parentId", id);
+        menuMapper.deleteByExample(example);
+    }
+
+    @Override
+    public List<Menu> getAllValidMenu() {
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("isValid", CommonState.VALID.getVal());
+        criteria.andEqualTo("type", MenuType.MENU.getVal());
+        return menuMapper.selectByExample(example);
     }
 
     /**

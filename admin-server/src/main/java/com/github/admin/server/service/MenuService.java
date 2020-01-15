@@ -59,4 +59,16 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @param menu
      */
     void modify(Menu menu);
+
+    /**
+     * 删除菜单
+     * @param id
+     */
+    void delete(Long id);
+
+    /**
+     * 获取所有有效状态的菜单，不包括按钮
+     * @return
+     */
+    List<Menu> getAllValidMenu();
 }
