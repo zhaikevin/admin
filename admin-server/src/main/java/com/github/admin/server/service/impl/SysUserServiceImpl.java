@@ -38,7 +38,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     }
 
     @Override
-    public Long register(SysUser sysUser) {
+    public Long create(SysUser sysUser, String operation) {
         ValidateUtils.notEmptyString(sysUser.getUsername(), "用户名不能为空");
         ValidateUtils.notEmptyString(sysUser.getPassword(), "密码不能为空");
         ValidateUtils.notEmptyString(sysUser.getEmail(), "邮箱不能为空");
@@ -53,12 +53,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
             log.error("encrypt password failed:{}", e.getMessage(), e);
             throw new BusinessException("注册用户失败");
         }
-        sysUser.setState(CommonState.VALID.getVal());
-        sysUser.setCreator(sysUser.getUsername());
-        sysUser.setModifier(sysUser.getUsername());
+        if(operation.equals("register")) {
+            sysUser.setState(CommonState.VALID.getVal());
+            sysUser.setCreator(sysUser.getUsername());
+            sysUser.setModifier(sysUser.getUsername());
+        } else {
+            sysUser.setCreator(authenticationManager.getUserName());
+            sysUser.setModifier(authenticationManager.getUserName());
+        }
         sysUser.setCreateTime(DateUtils.now());
         sysUser.setModifyTime(DateUtils.now());
         sysUserMapper.insertUseGeneratedKeys(sysUser);
         return sysUser.getId();
     }
+
 }

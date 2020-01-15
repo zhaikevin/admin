@@ -10,6 +10,7 @@ import com.github.foundation.pagination.model.SearchParams;
 import com.github.foundation.pagination.model.Sort;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysUserController {
 
     @Autowired
-    private SysUserService SysUserService;
+    private SysUserService sysUserService;
 
     /**
      * 分页查询
@@ -52,8 +53,18 @@ public class SysUserController {
         if (StringUtils.isNotBlank(username)) {
             pagination.addParam(new SearchParams.Param("username", username, SearchParams.Compare.LIKE));
         }
-        SysUserService.queryByPage(pagination);
+        sysUserService.queryByPage(pagination);
         return ResultInfo.success(pagination);
+    }
+
+    /**
+     * 创建用户
+     * @return
+     */
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public ResultInfo create(@RequestBody SysUser user) {
+        sysUserService.create(user,"create");
+        return ResultInfo.success();
     }
 
 }

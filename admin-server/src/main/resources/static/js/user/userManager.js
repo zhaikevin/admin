@@ -19,7 +19,9 @@ var app = new Vue({
             {'label': '全部', 'val': ''},
             {'label': '禁用', 'val': '0'},
             {'label': '正常', 'val': '1'}
-        ]
+        ],
+        createDialog: false,
+        createUrl: '',
     },
     mounted() {
         this.fetchData();
@@ -102,6 +104,13 @@ var app = new Vue({
             } else {
                 this.$message.error('该行记录的日志url为空');
             }
+        },
+        beforeCreateCloseDialog() {
+            this.createUrl = ''
+        },
+        showCreateDialog() {
+            this.createDialog = true
+            this.createUrl = 'userCreate.html?new=' + Math.random()
         },
         handleKill(index, row) {
             var self = this;

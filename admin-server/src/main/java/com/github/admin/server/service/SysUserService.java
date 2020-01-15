@@ -19,9 +19,9 @@ public interface SysUserService extends BaseService<SysUser, SysUserMapper> {
     SysUser getByName(String userName);
 
     /**
-     * 注册用户
-     * @param sysUser 用户信息
-     * @return 用户id
+     * 创建用户
+     * @param sysUser
+     * @return
      */
-    Long register(SysUser sysUser);
+    Long create(SysUser sysUser,String operation);
 }

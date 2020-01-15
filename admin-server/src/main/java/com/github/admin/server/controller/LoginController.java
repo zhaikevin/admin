@@ -69,7 +69,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResultInfo register(@RequestBody SysUser user) {
-        sysUserService.register(user);
+        sysUserService.create(user,"register");
         return ResultInfo.success();
     }
 }
