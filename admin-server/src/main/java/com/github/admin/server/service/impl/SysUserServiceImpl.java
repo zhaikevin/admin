@@ -13,7 +13,10 @@ import com.github.foundation.service.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+
+import java.util.Date;
 
 /**
  * @Description:
@@ -53,7 +56,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
             log.error("encrypt password failed:{}", e.getMessage(), e);
             throw new BusinessException("注册用户失败");
         }
-        if(operation.equals("register")) {
+        if (operation.equals("register")) {
             sysUser.setState(CommonState.VALID.getVal());
             sysUser.setCreator(sysUser.getUsername());
             sysUser.setModifier(sysUser.getUsername());
@@ -65,6 +68,36 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
         sysUser.setModifyTime(DateUtils.now());
         sysUserMapper.insertUseGeneratedKeys(sysUser);
         return sysUser.getId();
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        sysUserMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void resetPassword(SysUser sysUser) {
+        SysUser userInfo = sysUserMapper.selectByPrimaryKey(sysUser.getId());
+        sysUser.setModifyTime(new Date());
+        sysUser.setModifier(authenticationManager.getUserName());
+        try {
+            sysUser.setPassword(authenticationManager.encrypt(userInfo.getUsername(), sysUser.getPassword(), userInfo.getSalt()));
+        } catch (Exception e) {
+            log.error("encrypt password failed:{}", e.getMessage(), e);
+            throw new BusinessException("重置密码失败");
+        }
+        sysUserMapper.updateByPrimaryKeySelective(sysUser);
+    }
+
+    @Override
+    public SysUser getById(Long id) {
+        Example example = new Example(SysUser.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", id);
+        example.excludeProperties("salt");
+        example.excludeProperties("password");
+        return sysUserMapper.selectOneByExample(example);
     }
 
 }

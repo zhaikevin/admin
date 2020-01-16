@@ -23,5 +23,17 @@ public interface SysUserService extends BaseService<SysUser, SysUserMapper> {
      * @param sysUser
      * @return
      */
-    Long create(SysUser sysUser,String operation);
+    Long create(SysUser sysUser, String operation);
+
+    /**
+     * 删除
+     * @param id
+     */
+    void delete(Long id);
+
+    /**
+     * 重置密码
+     * @param sysUser
+     */
+    void resetPassword(SysUser sysUser);
 }

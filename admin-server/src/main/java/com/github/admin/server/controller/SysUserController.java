@@ -2,6 +2,7 @@ package com.github.admin.server.controller;
 
 import com.github.admin.server.model.SysUser;
 import com.github.admin.server.service.SysUserService;
+import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import com.github.foundation.pagination.model.Direction;
 import com.github.foundation.pagination.model.Order;
@@ -10,11 +11,14 @@ import com.github.foundation.pagination.model.SearchParams;
 import com.github.foundation.pagination.model.Sort;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * @Description: 系统用户控制器
@@ -27,6 +31,9 @@ public class SysUserController {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     /**
      * 分页查询
@@ -63,7 +70,52 @@ public class SysUserController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResultInfo create(@RequestBody SysUser user) {
-        sysUserService.create(user,"create");
+        sysUserService.create(user, "create");
+        return ResultInfo.success();
+    }
+
+    /**
+     * 根据id获取用户详情
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/getById", method = RequestMethod.GET)
+    public ResultInfo getById(@RequestParam(value = "id") Long id) {
+        return ResultInfo.success(sysUserService.getById(id));
+    }
+
+    /**
+     * 修改用户
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public ResultInfo modify(@RequestBody SysUser sysUser) {
+        sysUser.setModifier(authenticationManager.getUserName());
+        sysUser.setModifyTime(new Date());
+        sysUserService.UpdateByPrimaryKeySelective(sysUser);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 重置密码
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+    public ResultInfo resetPassword(@RequestBody SysUser sysUser) {
+        sysUserService.resetPassword(sysUser);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
+    public ResultInfo delete(@PathVariable(value = "id") Long id) {
+        sysUserService.delete(id);
         return ResultInfo.success();
     }
 

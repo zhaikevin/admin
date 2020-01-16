@@ -28,7 +28,7 @@
             <el-dialog title="新建菜单"
                        before-close="beforeCreateCloseDialog"
                        close-on-click-modal="false"
-                       :visible.sync="createDialog">
+                       :visible.sync="createDialog" width="500px">
                 <span>
                     <iframe :src="createUrl" width="100%" height="350px" style="border:0px"></iframe>
                 </span>
@@ -36,7 +36,7 @@
             <el-dialog title="编辑菜单"
                        before-close="beforeModifyCloseDialog"
                        close-on-click-modal="false"
-                       :visible.sync="modifyDialog">
+                       :visible.sync="modifyDialog" width="500px">
                 <span>
                     <iframe :src="modifyUrl" width="100%" height="350px" style="border:0px"></iframe>
                 </span>

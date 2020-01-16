@@ -158,6 +158,9 @@ var app = new Vue({
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
+        },
+        cancel() {
+            window.parent.app.modifyDialog = false
         }
     }
 });

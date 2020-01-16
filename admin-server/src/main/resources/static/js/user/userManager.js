@@ -22,6 +22,12 @@ var app = new Vue({
         ],
         createDialog: false,
         createUrl: '',
+        modifyDialog: false,
+        modifyUrl: '',
+        modifyId: 0,
+        resetPasswordDialog: false,
+        resetPasswordUrl: '',
+        resetPasswordId: 0,
     },
     mounted() {
         this.fetchData();
@@ -97,14 +103,6 @@ var app = new Vue({
             })
             return time_str
         },
-        handleLog(index, row) {
-            var url = row.logUrl
-            if (typeof (url) != 'undefined' && url != null && url.trim() != '') {
-                window.open(row.logUrl, "_blank");
-            } else {
-                this.$message.error('该行记录的日志url为空');
-            }
-        },
         beforeCreateCloseDialog() {
             this.createUrl = ''
         },
@@ -112,57 +110,46 @@ var app = new Vue({
             this.createDialog = true
             this.createUrl = 'userCreate.html?new=' + Math.random()
         },
-        handleKill(index, row) {
-            var self = this;
-            this.$confirm('确认杀死该任务？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-                center: true
-            }).then(function () {
-                Vue.http.get('../../jobController/kill/' + row.id,
-                    {
-                        params: {}
-                    }
-                ).then(function (res) {
-                    var data = res.body;
-                    if (data.status === 0) {
-                        self.$message.info("杀死任务已提交，请稍后刷新页面确认是否杀死成功")
-                        self.fetchData()
-                    } else {
-                        console.log(data);
-                        self.$message.error('杀死任务ajax服务器响应异常')
-                    }
-                }, function () {
-                    self.$message.error('杀死任务ajax发送失败，请检查网络');
-                });
-            }, function () {
-                return
-            })
+        showModifyDialog(index, row) {
+            this.modifyDialog = true
+            this.modifyUrl = 'userModify.html?new=' + Math.random()
+            this.modifyId = row.id;
+        },
+        beforeModifyCloseDialog() {
+            this.modifyId = 0
+            this.modifyUrl = ''
+        },
+        resetPassword(index, row) {
+            this.resetPasswordDialog = true
+            this.resetPasswordUrl = 'resetPassword.html?new=' + Math.random()
+            this.resetPasswordId = row.id;
+        },
+        beforeResetPasswordCloseDialog() {
+            this.resetPasswordId = 0
+            this.resetPasswordUrl = ''
         },
         handleDelete(index, row) {
             var self = this;
-            this.$confirm('确认删除该任务？', '提示', {
+            this.$confirm('确认删除该用户？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(function () {
-                Vue.http.get('../../jobController/deleteJob/' + row.id,
+                Vue.http.post('../../user/delete/' + row.id,
                     {
                         params: {}
                     }
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        self.$message.info("删除任务成功")
+                        self.$message.success("删除用户成功")
                         self.fetchData()
                     } else {
-                        console.log(data);
-                        self.$message.error('删除任务ajax服务器响应异常')
+                        self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('删除任务ajax发送失败，请检查网络');
+                    self.$message.error('删除用户失败');
                 });
             }, function () {
                 return

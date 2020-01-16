@@ -10,31 +10,28 @@
 </head>
 <body>
     <div id="app">
-        <el-form :model="createForm" :rules="createRules" ref="createForm" label-width="120px" style="width: 340px">
-            <el-form-item label="用户名：" prop="username">
-                <el-input v-model="createForm.username" placeholder="请输入用户名" ></el-input>
-            </el-form-item>
-            <el-form-item label="密码：" prop="password">
-                <el-input type="password" v-model="createForm.password" placeholder="请输入密码"></el-input>
+        <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="120px" style="width: 340px">
+            <el-form-item label="用户名：" prop="username" disabled>
+                <el-input v-model="modifyForm.username" placeholder="请输入用户名" ></el-input>
             </el-form-item>
             <el-form-item label="邮箱：" prop="email">
-                <el-input v-model="createForm.email" placeholder="请输入邮箱" ></el-input>
+                <el-input v-model="modifyForm.email" placeholder="请输入邮箱" ></el-input>
             </el-form-item>
             <el-form-item label="手机号：" prop="mobile">
-                <el-input v-model="createForm.mobile" placeholder="请输入手机号"></el-input>
+                <el-input v-model="modifyForm.mobile" placeholder="请输入手机号"></el-input>
             </el-form-item>
             <el-form-item label="状态：" prop="state">
-                <el-radio-group v-model="createForm.state">
+                <el-radio-group v-model="modifyForm.state">
                     <el-radio :label="0">禁用</el-radio>
                     <el-radio :label="1">正常</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item style="text-align: center">
-                <el-button type="primary" size="small" @click="submitForm('createForm')">创建</el-button>
-                <el-button type="primary" size="small" @click="resetForm('createForm')">重置</el-button>
+                <el-button type="primary" size="small" @click="submitForm('modifyForm')">保存</el-button>
+                <el-button type="primary" size="small" @click="cancel">取消</el-button>
             </el-form-item>
         </el-form>
     </div>
-<script type="text/javascript" src="../../js/user/userCreate.js"></script>
+<script type="text/javascript" src="../../js/user/userModify.js"></script>
 </body>
 </html>
