@@ -71,4 +71,10 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @return
      */
     List<Menu> getAllValidMenu();
+
+    /**
+     * 根据系统id获取菜单
+     * @return
+     */
+    List<Menu> getBySystemId(Long systemId);
 }

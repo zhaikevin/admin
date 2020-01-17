@@ -2,24 +2,19 @@ var app = new Vue({
     el: "#app",
     data: {
         createForm: {
-            username: '',
-            password: '',
-            email: '',
-            mobile: '',
-            state:1,
+            name: '',
+            url: '',
+            remark: '',
         },
         createRules: {
-            state: [
-                {required: true, message: '请选择状态', trigger: 'change'}
+            name: [
+                {required: true, message: '请输入系统名称', trigger: 'blur'}
             ],
-            username: [
-                {required: true, message: '请输入用户名', trigger: 'blur'}
+            url: [
+                {required: true, message: '请输入系统链接', trigger: 'blur'}
             ],
-            password: [
-                {required: true, message: '请输入密码', trigger: 'blur'}
-            ],
-            email: [
-                {required: true, message: '请输入邮箱', trigger: 'blur'}
+            remark: [
+                {max: 500, message: '最大长度为255', trigger: 'blur'}
             ]
         }
     },
@@ -31,13 +26,11 @@ var app = new Vue({
                 if (!valid) {
                     return false;
                 }
-                Vue.http.post('../../user/create',
+                Vue.http.post('../../system/create',
                     {
-                        username: self.createForm.username,
-                        password: self.createForm.password,
-                        email: self.createForm.email,
-                        mobile: self.createForm.mobile,
-                        state: self.createForm.state
+                        name: self.createForm.name,
+                        url: self.createForm.url,
+                        remark: self.createForm.remark,
                     }
                 ).then(function (res) {
                     var data = res.body
@@ -48,7 +41,7 @@ var app = new Vue({
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('创建用户异常')
+                    self.$message.error('创建系统异常')
                 })
             })
         },

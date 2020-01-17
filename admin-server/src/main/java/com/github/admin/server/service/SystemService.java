@@ -10,4 +10,10 @@ import com.github.foundation.service.BaseService;
  * @Date: 2020/1/7 14:47
  */
 public interface SystemService extends BaseService<System, SystemMapper> {
+
+    /**
+     * 根据id删除
+     * @param id
+     */
+    void delete(Long id);
 }

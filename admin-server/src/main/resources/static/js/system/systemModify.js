@@ -3,30 +3,29 @@ var app = new Vue({
     data: {
         modifyForm: {
             id:0,
-            username: '',
-            email: '',
-            mobile: '',
-            state:1,
+            name: '',
+            url: '',
+            remark: '',
         },
         modifyRules: {
-            state: [
-                {required: true, message: '请选择状态', trigger: 'change'}
+            name: [
+                {required: true, message: '请输入系统名称', trigger: 'blur'}
             ],
-            username: [
-                {required: true, message: '请输入用户名', trigger: 'blur'}
+            url: [
+                {required: true, message: '请输入系统链接', trigger: 'blur'}
             ],
-            email: [
-                {required: true, message: '请输入邮箱', trigger: 'blur'}
+            remark: [
+                {max: 500, message: '最大长度为255', trigger: 'blur'}
             ]
         }
     },
     mounted() {
-        this.fetchUserInfo();
+        this.fetchSystemInfo();
     },
     methods: {
-        fetchUserInfo() {
+        fetchSystemInfo() {
             var self = this;
-            Vue.http.get('../../user/getById',
+            Vue.http.get('../../system/getById',
                 {
                     params:
                         {
@@ -37,15 +36,14 @@ var app = new Vue({
                 var data = res.body;
                 if (data.status === 0) {
                     self.modifyForm.id = data.data.id
-                    self.modifyForm.username = data.data.username
-                    self.modifyForm.email = data.data.email
-                    self.modifyForm.mobile = data.data.mobile
-                    self.modifyForm.state = data.data.state
+                    self.modifyForm.name = data.data.name
+                    self.modifyForm.url = data.data.url
+                    self.modifyForm.remark = data.data.remark
                 } else {
                     self.$message.error(data.statusInfo)
                 }
             }, function () {
-                self.$message.error('获取用户信息异常');
+                self.$message.error('获取系统信息异常');
             });
         },
         submitForm(formName) {
@@ -55,13 +53,12 @@ var app = new Vue({
                 if (!valid) {
                     return false;
                 }
-                Vue.http.post('../../user/modify',
+                Vue.http.post('../../system/modify',
                     {
                         id: self.modifyForm.id,
-                        username: self.modifyForm.username,
-                        email: self.modifyForm.email,
-                        mobile: self.modifyForm.mobile,
-                        state: self.modifyForm.state
+                        name: self.modifyForm.name,
+                        url: self.modifyForm.url,
+                        remark: self.modifyForm.remark,
                     }
                 ).then(function (res) {
                     var data = res.body
@@ -72,7 +69,7 @@ var app = new Vue({
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('编辑用户异常')
+                    self.$message.error('编辑系统异常')
                 })
             })
         },

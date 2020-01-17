@@ -2,8 +2,7 @@ var app = new Vue({
     el: "#app",
     data: {
         form: {
-            username: '',
-            state: ''
+            name: '',
         },
         centerDialogVisible: false,
         currentPage: 0,
@@ -13,19 +12,11 @@ var app = new Vue({
         order: 'desc',
         listLoading: false,
         tableData: [],
-        stateOptions: [
-            {'label': '全部', 'val': ''},
-            {'label': '禁用', 'val': '0'},
-            {'label': '正常', 'val': '1'}
-        ],
         createDialog: false,
         createUrl: '',
         modifyDialog: false,
         modifyUrl: '',
         modifyId: 0,
-        resetPasswordDialog: false,
-        resetPasswordUrl: '',
-        resetPasswordId: 0,
     },
     mounted() {
         this.fetchData();
@@ -34,14 +25,13 @@ var app = new Vue({
         fetchData() {
             this.listLoading = true;
             var self = this;
-            Vue.http.get('../../user/list',
+            Vue.http.get('../../system/list',
                 {
                     params:
                         {
                             currentPage: self.currentPage,
                             pageSize: self.pageSize,
-                            username: self.form.username,
-                            state: self.form.state,
+                            name: self.form.name,
                             sort: self.sort,
                             order: self.order
                         }
@@ -57,15 +47,8 @@ var app = new Vue({
                 }
             }, function () {
                 self.listLoading = false
-                self.$message.error('请求数据失败,请检查网络');
+                self.$message.error('获取系统列表失败');
             });
-        },
-        formatterState(row, column, cellValue, index) {
-            if (row.state == 0) {
-                return '禁用'
-            } else if (row.state == 1) {
-                return '正常'
-            }
         },
         formatterDate(row, column, cellValue, index) {
             if (!cellValue) {
@@ -106,48 +89,39 @@ var app = new Vue({
         },
         showCreateDialog() {
             this.createDialog = true
-            this.createUrl = 'userCreate.html?new=' + Math.random()
+            this.createUrl = 'systemCreate.html?new=' + Math.random()
         },
         showModifyDialog(index, row) {
             this.modifyDialog = true
-            this.modifyUrl = 'userModify.html?new=' + Math.random()
+            this.modifyUrl = 'systemModify.html?new=' + Math.random()
             this.modifyId = row.id;
         },
         beforeModifyCloseDialog() {
             this.modifyId = 0
             this.modifyUrl = ''
         },
-        resetPassword(index, row) {
-            this.resetPasswordDialog = true
-            this.resetPasswordUrl = 'resetPassword.html?new=' + Math.random()
-            this.resetPasswordId = row.id;
-        },
-        beforeResetPasswordCloseDialog() {
-            this.resetPasswordId = 0
-            this.resetPasswordUrl = ''
-        },
         handleDelete(index, row) {
             var self = this;
-            this.$confirm('确认删除该用户？', '提示', {
+            this.$confirm('确认删除该系统？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(function () {
-                Vue.http.post('../../user/delete/' + row.id,
+                Vue.http.post('../../system/delete/' + row.id,
                     {
                         params: {}
                     }
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        self.$message.success("删除用户成功")
+                        self.$message.success("删除系统成功")
                         self.fetchData()
                     } else {
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('删除用户失败');
+                    self.$message.error('删除系统失败');
                 });
             }, function () {
                 return

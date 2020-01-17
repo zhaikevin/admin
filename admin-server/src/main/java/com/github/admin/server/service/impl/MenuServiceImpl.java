@@ -119,6 +119,14 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         return menuMapper.selectByExample(example);
     }
 
+    @Override
+    public List<Menu> getBySystemId(Long systemId) {
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("systemId", systemId);
+        return menuMapper.selectByExample(example);
+    }
+
     /**
      * 获取子菜单列表
      * @param parentMenuTree 父菜单
