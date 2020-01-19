@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建用户</title>
+    <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
+    <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+</head>
+<body>
+    <div id="app">
+        <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="120px" style="width: 340px">
+            <el-form-item label="角色名称：" prop="name">
+                <el-input v-model="modifyForm.name" placeholder="请输入角色名称"></el-input>
+            </el-form-item>
+            <el-form-item label="系统描述：" prop="remark">
+                <el-input type="textarea" :rows="4" v-model="modifyForm.remark"></el-input>
+            </el-form-item>
+            <el-form-item style="text-align: center">
+                <el-button type="primary" size="small" @click="submitForm('modifyForm')">保存</el-button>
+                <el-button type="primary" size="small" @click="cancel">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+<script type="text/javascript" src="../../js/role/roleModify.js"></script>
+</body>
+</html>
