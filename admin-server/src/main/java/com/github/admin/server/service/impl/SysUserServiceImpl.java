@@ -4,6 +4,7 @@ import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.dao.SysUserMapper;
 import com.github.admin.server.model.SysUser;
 import com.github.admin.server.service.SysUserService;
+import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.common.utils.DateUtils;
@@ -32,6 +33,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public SysUser getByName(String userName) {
@@ -74,6 +78,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     @Transactional
     public void delete(Long id) {
         sysUserMapper.deleteByPrimaryKey(id);
+        userRoleService.delete(id, null);
     }
 
     @Override

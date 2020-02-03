@@ -12,7 +12,7 @@ import com.github.foundation.service.BaseService;
 public interface RoleService extends BaseService<Role, RoleMapper> {
 
     /**
-     * 删除
+     * 删除，同时把角色和用户的关联关系删除，关联权限删除
      * @param id
      */
     void delete(Long id);

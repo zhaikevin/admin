@@ -2,6 +2,7 @@ package com.github.admin.server.controller;
 
 import com.github.admin.server.model.Role;
 import com.github.admin.server.service.RoleService;
+import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import com.github.foundation.pagination.model.Direction;
@@ -31,6 +32,9 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -103,6 +107,27 @@ public class RoleController {
     @RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
     public ResultInfo delete(@PathVariable(value = "id") Long id) {
         roleService.delete(id);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 保存用户和角色的对应关系
+     */
+    @RequestMapping(value = "/saveUserRole", method = RequestMethod.POST)
+    public ResultInfo saveUserRole(@RequestParam(value = "userId") Long userId,
+                                   @RequestParam(value = "roleId") Long roleId) {
+        userRoleService.save(userId, roleId);
+        return ResultInfo.success();
+    }
+
+    /**
+     * 删除用户和角色的对应关系
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/deleteUserRole/{id:\\d+}", method = RequestMethod.POST)
+    public ResultInfo deleteUserRole(@PathVariable(value = "id") Long id) {
+        userRoleService.deleteByPrimaryKey(id);
         return ResultInfo.success();
     }
 }

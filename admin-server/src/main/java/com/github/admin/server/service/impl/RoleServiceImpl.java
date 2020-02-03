@@ -3,6 +3,7 @@ package com.github.admin.server.service.impl;
 import com.github.admin.server.dao.RoleMapper;
 import com.github.admin.server.model.Role;
 import com.github.admin.server.service.RoleService;
+import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleMapper> implement
     @Autowired
     private RoleMapper roleMapper;
 
+    @Autowired
+    private UserRoleService userRoleService;
+
     @Override
     @Transactional
     public void delete(Long id) {
         roleMapper.deleteByPrimaryKey(id);
+        userRoleService.delete(null, id);
     }
 }
