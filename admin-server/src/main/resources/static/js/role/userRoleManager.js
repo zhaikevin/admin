@@ -2,7 +2,7 @@ var app = new Vue({
     el: "#app",
     data: {
         form: {
-            name: '',
+            userName: '',
         },
         centerDialogVisible: false,
         currentPage: 0,
@@ -12,17 +12,6 @@ var app = new Vue({
         order: 'desc',
         listLoading: false,
         tableData: [],
-        createDialog: false,
-        createUrl: '',
-        modifyDialog: false,
-        modifyUrl: '',
-        modifyId: 0,
-        userRoleDialog: false,
-        userRoleUrl: '',
-        userRoleId:0,
-        addUserDialog: false,
-        addUserUrl: '',
-        addUserId:0,
     },
     mounted() {
         this.fetchData();
@@ -31,15 +20,16 @@ var app = new Vue({
         fetchData() {
             this.listLoading = true;
             var self = this;
-            Vue.http.get('../../role/list',
+            Vue.http.get('../../userRole/list',
                 {
                     params:
                         {
                             currentPage: self.currentPage,
                             pageSize: self.pageSize,
-                            name: self.form.name,
                             sort: self.sort,
-                            order: self.order
+                            order: self.order,
+                            userName: self.form.userName,
+                            roleId: window.parent.app.userRoleId,
                         }
                 }
             ).then(function (res) {
@@ -53,7 +43,7 @@ var app = new Vue({
                 }
             }, function () {
                 self.listLoading = false
-                self.$message.error('获取角色列表失败');
+                self.$message.error('获取用户角色关系列表失败');
             });
         },
         formatterDate(row, column, cellValue, index) {
@@ -90,62 +80,28 @@ var app = new Vue({
             })
             return time_str
         },
-        beforeCreateCloseDialog() {
-            this.createUrl = ''
-        },
-        showCreateDialog() {
-            this.createDialog = true
-            this.createUrl = 'roleCreate.html?new=' + Math.random()
-        },
-        showModifyDialog(index, row) {
-            this.modifyDialog = true
-            this.modifyUrl = 'roleModify.html?new=' + Math.random()
-            this.modifyId = row.id;
-        },
-        beforeModifyCloseDialog() {
-            this.modifyId = 0
-            this.modifyUrl = ''
-        },
-        showUserRoleDialog(index, row) {
-            this.userRoleDialog = true
-            this.userRoleUrl = 'userRoleManager.html?new=' + Math.random()
-            this.userRoleId = row.id;
-        },
-        beforeUserRoleCloseDialog() {
-            this.userRoleId = 0
-            this.userRoleUrl = ''
-        },
-        showAddUserDialog(index, row) {
-            this.addUserDialog = true
-            this.addUserUrl = 'userRoleCreate.html?new=' + Math.random()
-            this.addUserId = row.id;
-        },
-        beforeAddUserCloseDialog() {
-            this.addUserId = 0
-            this.addUserUrl = ''
-        },
         handleDelete(index, row) {
             var self = this;
-            this.$confirm('确认删除该角色及其关联权限？', '提示', {
+            this.$confirm('确认删除该用户与角色的关联关系？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(function () {
-                Vue.http.post('../../role/delete/' + row.id,
+                Vue.http.post('../../userRole/delete/' + row.id,
                     {
                         params: {}
                     }
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        self.$message.success("删除角色成功")
+                        self.$message.success("删除用户与角色的关联关系成功")
                         self.fetchData()
                     } else {
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('删除角色失败');
+                    self.$message.error('删除用户与角色的关联关系失败');
                 });
             }, function () {
                 return

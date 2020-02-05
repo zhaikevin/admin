@@ -119,4 +119,17 @@ public class SysUserController {
         return ResultInfo.success();
     }
 
+    @RequestMapping(value = "/listByRole", method = RequestMethod.GET)
+    public ResultInfo listByRole(@RequestParam(value = "currentPage") Integer currentPage,
+                                 @RequestParam(value = "pageSize") Integer pageSize,
+                                 @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
+                                 @RequestParam(value = "order", required = false, defaultValue = "desc") String order,
+                                 @RequestParam(value = "username", required = false) String username,
+                                 @RequestParam(value = "roleId") Long roleId) {
+        Sort sortObj = new Sort(new Order(Direction.fromString(order), sort));
+        Pagination<SysUser> pagination = new Pagination<>(currentPage, pageSize, sortObj);
+        sysUserService.listByRole(roleId, username, pagination);
+        return ResultInfo.success(pagination);
+    }
+
 }

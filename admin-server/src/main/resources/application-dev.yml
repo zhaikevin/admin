@@ -53,3 +53,8 @@ mapper:
   mappers: com.github.foundation.datasource.mapper.BaseMapper
   not-empty: false
   identity: MYSQL
+
+logging:
+  level:
+     com.github.foundation: debug
+     com.github.admin: debug

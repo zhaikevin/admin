@@ -10,7 +10,10 @@ import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.common.utils.DateUtils;
 import com.github.foundation.common.utils.RandomUtils;
 import com.github.foundation.common.utils.ValidateUtils;
+import com.github.foundation.pagination.annotation.Pageable;
+import com.github.foundation.pagination.model.Pagination;
 import com.github.foundation.service.BaseServiceImpl;
+import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -93,6 +97,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
             throw new BusinessException("重置密码失败");
         }
         sysUserMapper.updateByPrimaryKeySelective(sysUser);
+    }
+
+    @Override
+    @Pageable
+    public void listByRole(Long roleId, String username, Pagination<SysUser> pagination) {
+        List<SysUser> list = sysUserMapper.listByRole(roleId, username);
+        pagination.setDataset(list);
+        pagination.setTotal(((Page<SysUser>) list).getTotal());
     }
 
     @Override

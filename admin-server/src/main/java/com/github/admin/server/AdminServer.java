@@ -2,8 +2,11 @@ package com.github.admin.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
+
+import java.util.Arrays;
 
 /**
  * @Description: 启动类
@@ -16,6 +19,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 public class AdminServer {
 
     public static void main(String[] args) {
-        SpringApplication.run(AdminServer.class, args);
+        ApplicationContext context = SpringApplication.run(AdminServer.class, args);
+        Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
     }
 }

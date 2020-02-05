@@ -16,7 +16,7 @@ public interface UserRoleService extends BaseService<UserRole, UserRoleMapper> {
      * @param userId
      * @param roleId
      */
-    void save(Long userId, Long roleId);
+    void save(Long userId, Long roleId, String userName);
 
     /**
      * 删除用户和角色之间的关系，两个参数不能都为空

@@ -2,6 +2,7 @@ package com.github.admin.server.service;
 
 import com.github.admin.server.dao.SysUserMapper;
 import com.github.admin.server.model.SysUser;
+import com.github.foundation.pagination.model.Pagination;
 import com.github.foundation.service.BaseService;
 
 /**
@@ -36,4 +37,11 @@ public interface SysUserService extends BaseService<SysUser, SysUserMapper> {
      * @param sysUser
      */
     void resetPassword(SysUser sysUser);
+
+    /**
+     * 分页查询，去掉跟角色有对应关系的用户
+     * @param pagination
+     * @param roleId
+     */
+    void listByRole(Long roleId, String username, Pagination<SysUser> pagination);
 }

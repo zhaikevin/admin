@@ -27,7 +27,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
     private AuthenticationManager authenticationManager;
 
     @Override
-    public void save(Long userId, Long roleId) {
+    public void save(Long userId, Long roleId, String userName) {
         Example example = new Example(UserRole.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
@@ -41,6 +41,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
             userRole = new UserRole();
             userRole.setUserId(userId);
             userRole.setRoleId(roleId);
+            userRole.setUserName(userName);
             userRole.setCreateTime(new Date());
             userRole.setCreator(authenticationManager.getUserName());
             userRole.setModifyTime(new Date());

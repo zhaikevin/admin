@@ -35,6 +35,12 @@ public class UserRole implements Serializable {
     private Long userId;
 
     /**
+     * 用户名
+     */
+    @Column(name = "user_name")
+    private String userName;
+
+    /**
      * 角色id
      */
     @Column(name = "role_id")
