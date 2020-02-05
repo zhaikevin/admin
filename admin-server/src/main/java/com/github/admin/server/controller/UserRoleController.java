@@ -11,6 +11,7 @@ import com.github.foundation.pagination.model.Sort;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,10 +33,8 @@ public class UserRoleController {
      * 保存用户和角色的对应关系
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ResultInfo save(@RequestParam(value = "userId") Long userId,
-                           @RequestParam(value = "roleId") Long roleId,
-                           @RequestParam(value = "userName") String userName) {
-        userRoleService.save(userId, roleId, userName);
+    public ResultInfo save(@RequestBody UserRole userRole) {
+        userRoleService.save(userRole.getUserId(), userRole.getRoleId(), userRole.getUserName());
         return ResultInfo.success();
     }
 

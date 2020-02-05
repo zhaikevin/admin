@@ -29,7 +29,7 @@ var app = new Vue({
                             username: self.form.username,
                             sort: self.sort,
                             order: self.order,
-                            roleId:window.parent.app.addUserId
+                            roleId: window.parent.app.addUserId
                         }
                 }
             ).then(function (res) {
@@ -48,6 +48,35 @@ var app = new Vue({
         },
         onQuerySubmit: function () {
             this.fetchData()
+        },
+        handleAdd(index, row) {
+            var self = this;
+            this.$confirm('确认添加该用户与角色的关联关系？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                Vue.http.post('../../userRole/save',
+                    {
+                        userId: row.id,
+                        roleId: window.parent.app.addUserId,
+                        userName: row.username
+                    }
+                ).then(function (res) {
+                    var data = res.body;
+                    if (data.status === 0) {
+                        self.$message.success("添加用户与角色的关联关系成功")
+                        self.fetchData()
+                    } else {
+                        self.$message.error(data.statusInfo)
+                    }
+                }, function () {
+                    self.$message.error('添加用户与角色的关联关系失败');
+                });
+            }, function () {
+                return
+            })
         },
         handleSizeChange(val) {
             this.pageSize = val;

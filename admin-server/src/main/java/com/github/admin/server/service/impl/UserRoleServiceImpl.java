@@ -5,6 +5,7 @@ import com.github.admin.server.model.UserRole;
 import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
+import com.github.foundation.common.utils.ValidateUtils;
 import com.github.foundation.service.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
 
     @Override
     public void save(Long userId, Long roleId, String userName) {
+        ValidateUtils.notEmptyString(userName, "用户名不能为空");
+        ValidateUtils.notNull(userId, "用户id不能为空");
+        ValidateUtils.notNull(roleId, "角色id不能为空");
         Example example = new Example(UserRole.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
