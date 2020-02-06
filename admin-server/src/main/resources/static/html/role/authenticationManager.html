@@ -17,7 +17,8 @@
                            style="margin-left: 10px">保存
                 </el-button>
             </div>
-            <el-tree :data="data" :props="defaultProps" ref="tree" node-key="code" highlight-current show-checkbox default-expand-all></el-tree>
+            <el-tree :data="data" :props="defaultProps" ref="tree" node-key="code" @check="clickMenu"
+                     check-strictly highlight-current show-checkbox default-expand-all></el-tree>
         </el-main>
     </el-container>
 </div>
