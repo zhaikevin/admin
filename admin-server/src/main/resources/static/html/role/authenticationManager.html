@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>权限管理</title>
+    <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
+    <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: auto; border: 1px solid #eee;">
+        <el-main>
+            <div style="margin-bottom: 20px">
+                <el-button type="primary" size="small" @click="save"
+                           style="margin-left: 10px">保存
+                </el-button>
+            </div>
+            <el-tree :data="data" :props="defaultProps" ref="tree" node-key="code" highlight-current show-checkbox default-expand-all></el-tree>
+        </el-main>
+    </el-container>
+</div>
+<script type="text/javascript" src="../../js/role/authenticationManager.js"></script>
+</body>
+</html>

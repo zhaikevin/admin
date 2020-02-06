@@ -19,10 +19,13 @@ var app = new Vue({
         modifyId: 0,
         userRoleDialog: false,
         userRoleUrl: '',
-        userRoleId:0,
+        userRoleId: 0,
         addUserDialog: false,
         addUserUrl: '',
-        addUserId:0,
+        addUserId: 0,
+        authenticationDialog: false,
+        authenticationUrl: '',
+        authenticationId: 0,
     },
     mounted() {
         this.fetchData();
@@ -123,6 +126,15 @@ var app = new Vue({
         beforeAddUserCloseDialog() {
             this.addUserId = 0
             this.addUserUrl = ''
+        },
+        showAuthenticationDialog(index, row) {
+            this.authenticationDialog = true
+            this.authenticationUrl = 'authenticationManager.html?new=' + Math.random()
+            this.authenticationId = row.id;
+        },
+        beforeAuthenticationCloseDialog() {
+            this.authenticationId = 0
+            this.authenticationUrl = ''
         },
         handleDelete(index, row) {
             var self = this;

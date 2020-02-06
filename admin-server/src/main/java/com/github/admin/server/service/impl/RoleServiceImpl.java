@@ -2,6 +2,7 @@ package com.github.admin.server.service.impl;
 
 import com.github.admin.server.dao.RoleMapper;
 import com.github.admin.server.model.Role;
+import com.github.admin.server.service.AuthenticationService;
 import com.github.admin.server.service.RoleService;
 import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.service.BaseServiceImpl;
@@ -23,10 +24,14 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleMapper> implement
     @Autowired
     private UserRoleService userRoleService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Override
     @Transactional
     public void delete(Long id) {
         roleMapper.deleteByPrimaryKey(id);
         userRoleService.delete(null, id);
+        authenticationService.deleteByRoleId(id);
     }
 }

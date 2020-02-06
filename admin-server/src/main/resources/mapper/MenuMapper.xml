@@ -57,7 +57,7 @@
        WHERE m.code = #{code}
    </select>
 
-    <select id="getAll" resultMap="BaseResultMap">
+    <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
        SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
        case when m.url =''  then ''
             when m.url is null then ''
@@ -65,6 +65,11 @@
        end as url
        FROM sys_menu m
        INNER JOIN sys_system s ON m.system_id = s.id
+       <where>
+           <if test="#{state} != null">
+              m.is_valid = #{state}
+           </if>
+       </where>
        ORDER BY m.sort_id
    </select>
 

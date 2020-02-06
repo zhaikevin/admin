@@ -5,10 +5,12 @@ import com.github.admin.server.constant.MenuType;
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
 import com.github.admin.server.model.vo.MenuTree;
+import com.github.admin.server.service.AuthenticationService;
 import com.github.admin.server.service.MenuService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.service.BaseServiceImpl;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,9 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Override
     public List<MenuTree> getByParentId(Long userId, Long parentId) {
         List<MenuTree> list = menuMapper.getAllValidMenu();
@@ -59,14 +64,14 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     }
 
     @Override
-    public List<MenuTree> getAllMenu() {
-        List<MenuTree> list = menuMapper.getAll();
+    public List<MenuTree> getAllMenu(Integer state) {
+        List<MenuTree> list = menuMapper.getAll(state);
         List<MenuTree> result = new ArrayList<>();
         for (MenuTree menuTree : list) {
             //父节点
             if (menuTree.getParentId().equals(ROOT_PARENT_ID)) {
                 result.add(menuTree);
-                getSubMenuList(menuTree, list, null);
+                getSubMenuList(menuTree, list);
             }
         }
         return result;
@@ -103,11 +108,23 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     @Override
     @Transactional
     public void delete(Long id) {
-        menuMapper.deleteByPrimaryKey(id);
         Example example = new Example(Menu.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("parentId", id);
+        List<MenuTree> list = menuMapper.getAllValidMenu();
+        MenuTree baseMenu = convert(getById(id));
+        getSubMenuList(baseMenu, list);
+        List<MenuTree> menuTreeList = baseMenu.getChildren();
+        List<Long> idList = new ArrayList<>();
+        idList.add(id);
+        if (CollectionUtils.isNotEmpty(menuTreeList)) {
+            menuTreeList.stream().forEach(item -> {
+                idList.add(item.getId());
+            });
+        }
+        menuMapper.deleteByPrimaryKey(id);
         menuMapper.deleteByExample(example);
+        authenticationService.batchDeleteByMenuId(idList);
     }
 
     @Override
@@ -131,7 +148,7 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
      * 获取子菜单列表
      * @param parentMenuTree 父菜单
      * @param list           菜单列表
-     * @param userId         用户id，为空不用判断
+     * @param userId         用户id
      */
     private void getSubMenuList(MenuTree parentMenuTree, List<MenuTree> list, Long userId) {
         for (MenuTree menuTree : list) {
@@ -139,6 +156,20 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
             if (menuTree.getParentId().equals(parentMenuTree.getId())) {
                 parentMenuTree.addChild(menuTree);
                 getSubMenuList(menuTree, list, userId);
+            }
+        }
+    }
+
+    /**
+     * 获取子菜单，不加权限控制
+     * @param parentMenuTree
+     * @param list
+     */
+    private void getSubMenuList(MenuTree parentMenuTree, List<MenuTree> list) {
+        for (MenuTree menuTree : list) {
+            if (menuTree.getParentId().equals(parentMenuTree.getId())) {
+                parentMenuTree.addChild(menuTree);
+                getSubMenuList(menuTree, list);
             }
         }
     }

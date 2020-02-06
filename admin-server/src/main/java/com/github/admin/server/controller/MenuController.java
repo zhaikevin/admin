@@ -66,12 +66,12 @@ public class MenuController {
     }
 
     /**
-     * 获取整个菜单树，用于菜单管理页面菜单树的展示，菜单、按钮；有效、无效都展示
+     * 获取整个菜单树，包括菜单、按钮
      * @return
      */
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResultInfo getAll() {
-        return ResultInfo.success(menuService.getAllMenu());
+    public ResultInfo getAll(@RequestParam(value = "state", required = false) Integer state) {
+        return ResultInfo.success(menuService.getAllMenu(state));
     }
 
     /**

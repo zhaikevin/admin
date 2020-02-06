@@ -46,7 +46,7 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * 获取整个菜单树
      * @return
      */
-    List<MenuTree> getAllMenu();
+    List<MenuTree> getAllMenu(Integer state);
 
     /**
      * 创建菜单
