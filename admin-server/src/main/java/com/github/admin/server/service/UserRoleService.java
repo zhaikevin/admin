@@ -4,6 +4,8 @@ import com.github.admin.server.dao.UserRoleMapper;
 import com.github.admin.server.model.UserRole;
 import com.github.foundation.service.BaseService;
 
+import java.util.List;
+
 /**
  * @Description:
  * @Author: kevin
@@ -25,4 +27,9 @@ public interface UserRoleService extends BaseService<UserRole, UserRoleMapper> {
      */
     void delete(Long userId, Long roleId);
 
+    /**
+     * 根据用户id获取
+     * @param userId
+     */
+    List<UserRole> getByUserId(Long userId);
 }

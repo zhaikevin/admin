@@ -32,7 +32,7 @@ public interface AuthenticationService extends BaseService<Authentication, Authe
     void save(List<Authentication> list, Long roleId);
 
     /**
-     * 根据角色id得到所有的菜单code
+     * 根据角色id得到所有的菜单id
      * @param roleId
      * @return
      */

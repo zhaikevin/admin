@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -68,5 +69,13 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
             criteria.andEqualTo("roleId", roleId);
         }
         userRoleMapper.deleteByExample(example);
+    }
+
+    @Override
+    public List<UserRole> getByUserId(Long userId) {
+        Example example = new Example(UserRole.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("userId", userId);
+        return userRoleMapper.selectByExample(example);
     }
 }
