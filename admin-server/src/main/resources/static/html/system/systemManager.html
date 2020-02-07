@@ -7,13 +7,14 @@
     <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
     <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
     <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+    <script type="text/javascript" src="../../js/common/authentication.js"></script>
 </head>
 <body>
 <div id="app">
     <el-container style="height: auto; border: 1px solid #eee;">
         <el-main>
             <el-form>
-                <el-row ref="form" :model="form">
+                <el-row v-if="authData.search" ref="form" :model="form">
                     <el-col :span="5">
                         <el-form-item label="系统名称:" label-width="100px">
                             <el-input v-model="form.name" placeholder="请输入系统名称"/>
@@ -30,7 +31,7 @@
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-button type="primary" size="small" @click="showCreateDialog" icon="el-icon-plus"
+                    <el-button v-if="authData.create" type="primary" size="small" @click="showCreateDialog" icon="el-icon-plus"
                                style="margin-bottom: 20px">新&nbsp;建
                     </el-button>
                 </el-row>
@@ -56,10 +57,10 @@
                                  :formatter="formatterDate"></el-table-column>
                 <el-table-column label="操作" align="center" width="200">
                     <template slot-scope="scope">
-                        <el-button size="mini" type="info"
+                        <el-button v-if="authData.modify" size="mini" type="info"
                                    @click="showModifyDialog(scope.$index, scope.row)">修&nbsp;改
                         </el-button>
-                        <el-button size="mini" type="warning"
+                        <el-button v-if="authData.delete" size="mini" type="warning"
                                    @click="handleDelete(scope.$index, scope.row)">删&nbsp;除
                         </el-button>
                     </template>

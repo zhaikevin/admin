@@ -6,9 +6,13 @@ var app = new Vue({
             label: 'name'
         },
         data: [],
+        authData: {
+            create: false,
+        },
     },
     created() {
         this.fetchData();
+        this.auth();
     },
     mounted() {
         this.getMenuId();
@@ -112,6 +116,13 @@ var app = new Vue({
             }, function () {
                 self.$message.error('保存权限信息异常');
             });
+        },
+
+        auth: function () {
+            var authCode = {
+                'admin.role.authentication.create': 'create',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

@@ -26,9 +26,17 @@ var app = new Vue({
         resetPasswordDialog: false,
         resetPasswordUrl: '',
         resetPasswordId: 0,
+        authData: {
+            create: false,
+            modify: false,
+            delete: false,
+            search: false,
+            resetPassword: false,
+        },
     },
     mounted() {
         this.fetchData();
+        this.auth();
     },
     methods: {
         fetchData() {
@@ -163,6 +171,16 @@ var app = new Vue({
         handleCurrentChange(val) {
             this.currentPage = val;
             this.fetchData();
+        },
+        auth: function () {
+            var authCode = {
+                'admin.user.create': 'create',
+                'admin.user.search': 'search',
+                'admin.user.modify': 'modify',
+                'admin.user.delete': 'delete',
+                'admin.user.resetPassword': 'resetPassword',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

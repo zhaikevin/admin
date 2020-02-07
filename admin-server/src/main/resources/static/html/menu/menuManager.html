@@ -7,19 +7,20 @@
     <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
     <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
     <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+    <script type="text/javascript" src="../../js/common/authentication.js"></script>
 </head>
 <body>
 <div id="app">
     <el-container style="height: auto; border: 1px solid #eee;">
         <el-main>
             <div style="margin-bottom: 20px">
-                <el-button type="primary" size="small" @click="showCreateDialog" :disabled="createDisabled"
+                <el-button v-if="authData.create" type="primary" size="small" @click="showCreateDialog" :disabled="createDisabled"
                            style="margin-left: 10px">新建
                 </el-button>
-                <el-button type="primary" size="small" @click="showModifyDialog" :disabled="modifyDisabled"
+                <el-button v-if="authData.modify" type="primary" size="small" @click="showModifyDialog" :disabled="modifyDisabled"
                            style="margin-left: 10px">编辑
                 </el-button>
-                <el-button type="primary" size="small" @click="deleteMenu" :disabled="modifyDisabled"
+                <el-button v-if="authData.delete" type="primary" size="small" @click="deleteMenu" :disabled="modifyDisabled"
                            style="margin-left: 10px">删除
                 </el-button>
             </div>

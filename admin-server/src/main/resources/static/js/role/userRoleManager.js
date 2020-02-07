@@ -12,9 +12,13 @@ var app = new Vue({
         order: 'desc',
         listLoading: false,
         tableData: [],
+        authData: {
+            delete: false,
+        },
     },
     mounted() {
         this.fetchData();
+        this.auth();
     },
     methods: {
         fetchData() {
@@ -117,6 +121,12 @@ var app = new Vue({
         handleCurrentChange(val) {
             this.currentPage = val;
             this.fetchData();
+        },
+        auth: function () {
+            var authCode = {
+                'admin.role.user.delete': 'delete',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

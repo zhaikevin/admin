@@ -26,9 +26,19 @@ var app = new Vue({
         authenticationDialog: false,
         authenticationUrl: '',
         authenticationId: 0,
+        authData: {
+            create: false,
+            modify: false,
+            delete: false,
+            search: false,
+            authentication: false,
+            userList: false,
+            userCreate: false,
+        },
     },
     mounted() {
         this.fetchData();
+        this.auth();
     },
     methods: {
         fetchData() {
@@ -173,6 +183,18 @@ var app = new Vue({
         handleCurrentChange(val) {
             this.currentPage = val;
             this.fetchData();
+        },
+        auth: function () {
+            var authCode = {
+                'admin.role.create': 'create',
+                'admin.role.search': 'search',
+                'admin.role.modify': 'modify',
+                'admin.role.delete': 'delete',
+                'admin.role.authentication': 'authentication',
+                'admin.role.user.list': 'userList',
+                'admin.role.user.create': 'userCreate',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

@@ -17,9 +17,16 @@ var app = new Vue({
         modifyDialog: false,
         modifyUrl: '',
         modifyId: 0,
+        authData: {
+            create: false,
+            modify: false,
+            delete: false,
+            search: false,
+        },
     },
     mounted() {
         this.fetchData();
+        this.auth();
     },
     methods: {
         fetchData() {
@@ -137,6 +144,15 @@ var app = new Vue({
         handleCurrentChange(val) {
             this.currentPage = val;
             this.fetchData();
+        },
+        auth: function () {
+            var authCode = {
+                'admin.system.create': 'create',
+                'admin.system.search': 'search',
+                'admin.system.modify': 'modify',
+                'admin.system.delete': 'delete',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

@@ -5,6 +5,7 @@ import com.github.admin.server.model.Authentication;
 import com.github.foundation.service.BaseService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -37,5 +38,12 @@ public interface AuthenticationService extends BaseService<Authentication, Authe
      * @return
      */
     List<Long> getMenuIdByRoleId(Long roleId);
+
+    /**
+     * 查询权限map
+     * @param userId
+     * @return
+     */
+    Map<Long, Long> getAuthentication(Long userId);
 
 }

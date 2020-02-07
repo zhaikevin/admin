@@ -1,9 +1,11 @@
 package com.github.admin.server.controller;
 
 import com.github.admin.server.model.Menu;
+import com.github.admin.server.model.vo.ButtonAuthentication;
 import com.github.admin.server.service.MenuService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
+import com.github.foundation.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -113,6 +117,18 @@ public class MenuController {
     @RequestMapping(value = "/getAllValidMenu", method = RequestMethod.GET)
     public ResultInfo getAllValidMenu() {
         return ResultInfo.success(menuService.getAllValidMenu());
+    }
+
+    /**
+     * button鉴权
+     * @param buttons
+     * @return
+     */
+    @RequestMapping(value = "/buttonAuthentication", method = RequestMethod.GET)
+    public ResultInfo buttonAuthentication(@RequestParam(value = "buttons") String buttons) {
+        List<ButtonAuthentication> list = JsonUtils.listFromJson(buttons, ButtonAuthentication.class);
+        menuService.buttonAuthentication(list);
+        return ResultInfo.success(list);
     }
 
 }

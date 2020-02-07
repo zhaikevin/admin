@@ -14,9 +14,15 @@ var app = new Vue({
         checkedName: '',
         createDisabled: false,
         modifyDisabled: true,
+        authData: {
+            create: false,
+            modify: false,
+            delete: false,
+        },
     },
     mounted() {
         this.fetchData();
+        this.auth();
     },
     methods: {
         fetchData() {
@@ -93,6 +99,14 @@ var app = new Vue({
             }, function () {
                 return
             })
+        },
+        auth: function () {
+            var authCode = {
+                'admin.menu.create': 'create',
+                'admin.menu.modify': 'modify',
+                'admin.menu.delete': 'delete',
+            }
+            authentication(authCode, this.authData, this)
         }
     }
 });

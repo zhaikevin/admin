@@ -4,11 +4,10 @@ import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.constant.MenuType;
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
-import com.github.admin.server.model.UserRole;
+import com.github.admin.server.model.vo.ButtonAuthentication;
 import com.github.admin.server.model.vo.MenuTree;
 import com.github.admin.server.service.AuthenticationService;
 import com.github.admin.server.service.MenuService;
-import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
 import com.github.foundation.service.BaseServiceImpl;
@@ -20,7 +19,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,21 +43,18 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     @Autowired
     private AuthenticationService authenticationService;
 
-    @Autowired
-    private UserRoleService userRoleService;
-
     @Override
     public List<MenuTree> getByParentId(Long userId, Long parentId) {
         List<MenuTree> list = menuMapper.getAllValidMenu();
         MenuTree baseMenu = convert(getById(parentId));
-        getSubMenuList(baseMenu, list, getAuthentication(userId));
+        getSubMenuList(baseMenu, list, authenticationService.getAuthentication(userId));
         return baseMenu.getChildren();
     }
 
     @Override
     public List<MenuTree> getBaseMenu(Long userId) {
-        Map<Long,Long> map = getAuthentication(userId);
-        return menuMapper.getBaseMenu().stream().filter(item-> map.containsKey(item.getId())).collect(Collectors.toList());
+        Map<Long, Long> map = authenticationService.getAuthentication(userId);
+        return menuMapper.getBaseMenu().stream().filter(item -> map.containsKey(item.getId())).collect(Collectors.toList());
     }
 
     @Override
@@ -153,11 +148,24 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
         return menuMapper.selectByExample(example);
     }
 
+    @Override
+    public void buttonAuthentication(List<ButtonAuthentication> list) {
+        Map<Long, Long> map = authenticationService.getAuthentication(authenticationManager.getUserId());
+        for (ButtonAuthentication authentication : list) {
+            MenuTree menuTree = getMenuTreeByCode(authentication.getMenuCode());
+            if (menuTree == null) {
+                authentication.setFlag(false);
+            } else {
+                authentication.setFlag(map.containsKey(menuTree.getId()));
+            }
+        }
+    }
+
     /**
      * 获取子菜单列表
      * @param parentMenuTree 父菜单
      * @param list           菜单列表
-     * @param map     用户有权限的菜单map
+     * @param map            用户有权限的菜单map
      */
     private void getSubMenuList(MenuTree parentMenuTree, List<MenuTree> list, Map<Long, Long> map) {
         for (MenuTree menuTree : list) {
@@ -167,23 +175,6 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
                 getSubMenuList(menuTree, list, map);
             }
         }
-    }
-
-    /**
-     * 获取有权限的菜单id map
-     * @param userId
-     * @return
-     */
-    private Map<Long, Long> getAuthentication(Long userId) {
-        Map<Long, Long> map = new HashMap<>();
-        List<UserRole> roleList = userRoleService.getByUserId(userId);
-        if (CollectionUtils.isEmpty(roleList)) {
-            return map;
-        }
-        List<Long> menuIdList = new ArrayList<>();
-        roleList.stream().forEach(item -> menuIdList.addAll(authenticationService.getMenuIdByRoleId(item.getRoleId())));
-        menuIdList.stream().forEach(item -> map.put(item, item));
-        return map;
     }
 
     /**

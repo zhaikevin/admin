@@ -43,8 +43,8 @@ public class AuthenticationController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResultInfo save(@RequestBody AuthenticationVO authentications) {
-        List<Authentication> list = JsonUtils.listFromJson(authentications.getAuthentications(),Authentication.class);
-        authenticationService.save(list,authentications.getRoleId());
+        List<Authentication> list = JsonUtils.listFromJson(authentications.getAuthentications(), Authentication.class);
+        authenticationService.save(list, authentications.getRoleId());
         return ResultInfo.success();
     }
 }

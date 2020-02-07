@@ -2,6 +2,7 @@ package com.github.admin.server.service;
 
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
+import com.github.admin.server.model.vo.ButtonAuthentication;
 import com.github.admin.server.model.vo.MenuTree;
 import com.github.foundation.service.BaseService;
 
@@ -77,4 +78,10 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
      * @return
      */
     List<Menu> getBySystemId(Long systemId);
+
+    /**
+     * button鉴权
+     * @param list
+     */
+    void buttonAuthentication(List<ButtonAuthentication> list);
 }

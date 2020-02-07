@@ -7,13 +7,14 @@
     <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
     <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
     <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+    <script type="text/javascript" src="../../js/common/authentication.js"></script>
 </head>
 <body>
 <div id="app">
     <el-container style="height: auto; border: 1px solid #eee;">
         <el-main>
             <el-form>
-                <el-row ref="form" :model="form">
+                <el-row v-if="authData.search" ref="form" :model="form">
                     <el-col :span="5">
                         <el-form-item label="角色名称:" label-width="100px">
                             <el-input v-model="form.name" placeholder="请输入角色名称"/>
@@ -23,7 +24,7 @@
                     <!-- 查询按钮 -->
                     <el-col :span="4">
                         <el-form-item>
-                            <el-button type="primary" size="small" @click="onQuerySubmit" icon="el-icon-search"
+                            <el-button v-if="authData.create" type="primary" size="small" @click="onQuerySubmit" icon="el-icon-search"
                                        style="margin-left: 20px">查&nbsp;询
                             </el-button>
                         </el-form-item>
@@ -55,19 +56,19 @@
                                  :formatter="formatterDate"></el-table-column>
                 <el-table-column label="操作" align="center" width="300">
                     <template slot-scope="scope">
-                        <el-button size="mini" type="info"
+                        <el-button v-if="authData.modify" size="mini" type="info"
                                    @click="showModifyDialog(scope.$index, scope.row)">修改
                         </el-button>
-                        <el-button size="mini" type="danger"
+                        <el-button v-if="authData.delete" size="mini" type="danger"
                                    @click="handleDelete(scope.$index, scope.row)">删除
                         </el-button>
-                        <el-button size="mini" type="success"
+                        <el-button v-if="authData.authentication" size="mini" type="success"
                                    @click="showAuthenticationDialog(scope.$index, scope.row)">权限
                         </el-button>
-                        <el-button size="mini" type="primary" style="margin-top: 10px"
+                        <el-button v-if="authData.userList" size="mini" type="primary" style="margin-top: 10px"
                                    @click="showUserRoleDialog(scope.$index, scope.row)">用户列表
                         </el-button>
-                        <el-button size="mini" type="warning" style="margin-top: 10px"
+                        <el-button v-if="authData.userCreate" size="mini" type="warning" style="margin-top: 10px"
                                    @click="showAddUserDialog(scope.$index, scope.row)">添加用户
                         </el-button>
                     </template>

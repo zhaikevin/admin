@@ -2,7 +2,9 @@ package com.github.admin.server.service.impl;
 
 import com.github.admin.server.dao.AuthenticationMapper;
 import com.github.admin.server.model.Authentication;
+import com.github.admin.server.model.UserRole;
 import com.github.admin.server.service.AuthenticationService;
+import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.service.BaseServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
@@ -13,8 +15,9 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * @Description:
@@ -29,6 +32,9 @@ public class AuthenticationServiceImpl extends BaseServiceImpl<Authentication, A
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRoleService userRoleService;
 
     @Override
     public void deleteByRoleId(Long roleId) {
@@ -93,5 +99,18 @@ public class AuthenticationServiceImpl extends BaseServiceImpl<Authentication, A
             list.stream().forEach(item -> result.add(item.getMenuId()));
         }
         return result;
+    }
+
+    @Override
+    public Map<Long, Long> getAuthentication(Long userId) {
+        Map<Long, Long> map = new HashMap<>();
+        List<UserRole> roleList = userRoleService.getByUserId(userId);
+        if (CollectionUtils.isEmpty(roleList)) {
+            return map;
+        }
+        List<Long> menuIdList = new ArrayList<>();
+        roleList.stream().forEach(item -> menuIdList.addAll(getMenuIdByRoleId(item.getRoleId())));
+        menuIdList.stream().forEach(item -> map.put(item, item));
+        return map;
     }
 }
