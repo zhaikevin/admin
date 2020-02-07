@@ -29,13 +29,13 @@ public interface AuthenticationService extends BaseService<Authentication, Authe
      * 保存权限
      * @param list
      */
-    void save(List<Authentication> list);
+    void save(List<Authentication> list, Long roleId);
 
     /**
      * 根据角色id得到所有的菜单code
      * @param roleId
      * @return
      */
-    List<String> getMenuCodeByRoleId(Long roleId);
+    List<Long> getMenuIdByRoleId(Long roleId);
 
 }

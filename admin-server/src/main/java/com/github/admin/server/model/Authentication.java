@@ -41,12 +41,6 @@ public class Authentication implements Serializable {
     private Long menuId;
 
     /**
-     * 菜单code
-     */
-    @Column(name = "menu_code")
-    private String menuCode;
-
-    /**
      * 创建人
      */
     @Column(name = "creator")

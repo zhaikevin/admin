@@ -66,7 +66,7 @@
        FROM sys_menu m
        INNER JOIN sys_system s ON m.system_id = s.id
        <where>
-           <if test="#{state} != null">
+           <if test="state != null">
               m.is_valid = #{state}
            </if>
        </where>
