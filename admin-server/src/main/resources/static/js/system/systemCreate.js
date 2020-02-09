@@ -3,12 +3,16 @@ var app = new Vue({
     data: {
         createForm: {
             name: '',
+            code: '',
             url: '',
             remark: '',
         },
         createRules: {
             name: [
                 {required: true, message: '请输入系统名称', trigger: 'blur'}
+            ],
+            code: [
+                {required: true, message: '请输入系统编码', trigger: 'blur'}
             ],
             url: [
                 {required: true, message: '请输入系统链接', trigger: 'blur'}
@@ -29,6 +33,7 @@ var app = new Vue({
                 Vue.http.post('../../system/create',
                     {
                         name: self.createForm.name,
+                        code: self.createForm.code,
                         url: self.createForm.url,
                         remark: self.createForm.remark,
                     }

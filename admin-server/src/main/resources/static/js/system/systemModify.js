@@ -4,12 +4,16 @@ var app = new Vue({
         modifyForm: {
             id:0,
             name: '',
+            code: '',
             url: '',
             remark: '',
         },
         modifyRules: {
             name: [
                 {required: true, message: '请输入系统名称', trigger: 'blur'}
+            ],
+            code: [
+                {required: true, message: '请输入系统编码', trigger: 'blur'}
             ],
             url: [
                 {required: true, message: '请输入系统链接', trigger: 'blur'}
@@ -37,6 +41,7 @@ var app = new Vue({
                 if (data.status === 0) {
                     self.modifyForm.id = data.data.id
                     self.modifyForm.name = data.data.name
+                    self.modifyForm.code = data.data.code
                     self.modifyForm.url = data.data.url
                     self.modifyForm.remark = data.data.remark
                 } else {
@@ -57,6 +62,7 @@ var app = new Vue({
                     {
                         id: self.modifyForm.id,
                         name: self.modifyForm.name,
+                        code: self.modifyForm.code,
                         url: self.modifyForm.url,
                         remark: self.modifyForm.remark,
                     }

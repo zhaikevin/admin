@@ -18,7 +18,7 @@
             else  CONCAT(s.url,m.url)
        end as url
        FROM sys_menu m
-       INNER JOIN sys_system s ON m.system_id = s.id
+       LEFT JOIN sys_system s ON m.system_code = s.code
        WHERE m.is_valid = 1 and m.`type` = 1
        ORDER BY m.sort_id
    </select>
@@ -30,7 +30,7 @@
             else  CONCAT(s.url,m.url)
        end as url
        FROM sys_menu m
-       INNER JOIN sys_system s ON m.system_id = s.id
+       LEFT JOIN sys_system s ON m.system_code = s.code
        WHERE m.is_valid = 1 and m.`type` = 1 and m.parent_id = 0
        ORDER BY m.sort_id
    </select>
@@ -42,7 +42,7 @@
             else  CONCAT(s.url,m.url)
        end as url
        FROM sys_menu m
-       INNER JOIN sys_system s ON m.system_id = s.id
+       LEFT JOIN sys_system s ON m.system_code = s.code
        WHERE m.id = #{menuId}
    </select>
 
@@ -53,7 +53,7 @@
             else  CONCAT(s.url,m.url)
        end as url
        FROM sys_menu m
-       INNER JOIN sys_system s ON m.system_id = s.id
+       LEFT JOIN sys_system s ON m.system_code = s.code
        WHERE m.code = #{code}
    </select>
 
@@ -64,7 +64,7 @@
             else  CONCAT(s.url,m.url)
        end as url
        FROM sys_menu m
-       INNER JOIN sys_system s ON m.system_id = s.id
+       LEFT JOIN sys_system s ON m.system_code = s.code
        <where>
            <if test="state != null">
               m.is_valid = #{state}

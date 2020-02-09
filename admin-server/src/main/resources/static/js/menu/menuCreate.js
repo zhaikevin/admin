@@ -7,7 +7,7 @@ var app = new Vue({
             code: '',
             url: '',
             parentId: '',
-            systemId: '',
+            systemCode: '',
             icon: 'el-icon-document',
             sortId: 1,
             remark: '',
@@ -39,7 +39,7 @@ var app = new Vue({
             code: [
                 {required: true, message: '请输入菜单编码', trigger: 'blur'}
             ],
-            systemId: [
+            systemCode: [
                 {required: true, message: '请选择所属系统', trigger: 'change'}
             ],
             remark: [
@@ -93,7 +93,7 @@ var app = new Vue({
                         code:self.createForm.code,
                         url:self.createForm.url,
                         parentId:self.createForm.parentId,
-                        systemId:self.createForm.systemId,
+                        systemCode:self.createForm.systemCode,
                         icon:self.createForm.icon,
                         sortId:self.createForm.sortId,
                         remark:self.createForm.remark,
