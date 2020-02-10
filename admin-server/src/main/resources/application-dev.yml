@@ -6,6 +6,8 @@ server:
     context-path: /admin-server/
 
 foundation:
+  user:
+    defaultRoleCode: default
   project:
     name: admin
     env: dev

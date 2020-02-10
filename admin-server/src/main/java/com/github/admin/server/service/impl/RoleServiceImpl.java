@@ -71,4 +71,12 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, RoleMapper> implement
         role.setModifyTime(new Date());
         roleMapper.updateByPrimaryKeySelective(role);
     }
+
+    @Override
+    public Role getByCode(String code) {
+        Example example = new Example(Role.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("code", code);
+        return roleMapper.selectOneByExample(example);
+    }
 }

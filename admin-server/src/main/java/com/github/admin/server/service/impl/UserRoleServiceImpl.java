@@ -30,9 +30,15 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
 
     @Override
     public void save(Long userId, Long roleId, String userName) {
+        save(userId, roleId, userName, authenticationManager.getUserName());
+    }
+
+    @Override
+    public void save(Long userId, Long roleId, String userName, String operator) {
         ValidateUtils.notEmptyString(userName, "用户名不能为空");
         ValidateUtils.notNull(userId, "用户id不能为空");
         ValidateUtils.notNull(roleId, "角色id不能为空");
+        ValidateUtils.notEmptyString(operator, "操作人不能为空");
         Example example = new Example(UserRole.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId);
@@ -40,7 +46,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
         UserRole userRole = userRoleMapper.selectOneByExample(example);
         if (userRole != null) {
             userRole.setModifyTime(new Date());
-            userRole.setModifier(authenticationManager.getUserName());
+            userRole.setModifier(operator);
             userRoleMapper.updateByPrimaryKeySelective(userRole);
         } else {
             userRole = new UserRole();
@@ -48,9 +54,9 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, UserRoleMappe
             userRole.setRoleId(roleId);
             userRole.setUserName(userName);
             userRole.setCreateTime(new Date());
-            userRole.setCreator(authenticationManager.getUserName());
+            userRole.setCreator(operator);
             userRole.setModifyTime(new Date());
-            userRole.setModifier(authenticationManager.getUserName());
+            userRole.setModifier(operator);
             userRoleMapper.insertUseGeneratedKeys(userRole);
         }
     }

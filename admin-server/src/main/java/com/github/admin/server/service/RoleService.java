@@ -28,4 +28,10 @@ public interface RoleService extends BaseService<Role, RoleMapper> {
      * @param role
      */
     void modify(Role role);
+
+    /**
+     * 根据code获取
+     * @param code
+     */
+    Role getByCode(String code);
 }

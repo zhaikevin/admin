@@ -2,7 +2,9 @@ package com.github.admin.server.service.impl;
 
 import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.dao.SysUserMapper;
+import com.github.admin.server.model.Role;
 import com.github.admin.server.model.SysUser;
+import com.github.admin.server.service.RoleService;
 import com.github.admin.server.service.SysUserService;
 import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
@@ -16,6 +18,7 @@ import com.github.foundation.service.BaseServiceImpl;
 import com.github.pagehelper.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -41,6 +44,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     @Autowired
     private UserRoleService userRoleService;
 
+    @Autowired
+    private RoleService roleService;
+
+    @Value("${foundation.user.defaultRoleCode}")
+    private String defaultRoleCode;
+
     @Override
     public SysUser getByName(String userName) {
         Example example = new Example(SysUser.class);
@@ -49,6 +58,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     }
 
     @Override
+    @Transactional
     public Long create(SysUser sysUser, String operation) {
         ValidateUtils.notEmptyString(sysUser.getUsername(), "用户名不能为空");
         ValidateUtils.notEmptyString(sysUser.getPassword(), "密码不能为空");
@@ -75,6 +85,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
         sysUser.setCreateTime(DateUtils.now());
         sysUser.setModifyTime(DateUtils.now());
         sysUserMapper.insertUseGeneratedKeys(sysUser);
+        Role role = roleService.getByCode(defaultRoleCode);
+        if (role != null) {
+            if (operation.equals("register")) {
+                userRoleService.save(sysUser.getId(), role.getId(), sysUser.getUsername(), sysUser.getUsername());
+            } else {
+                userRoleService.save(sysUser.getId(), role.getId(), sysUser.getUsername());
+            }
+        }
         return sysUser.getId();
     }
 
