@@ -16,4 +16,16 @@ public interface RoleService extends BaseService<Role, RoleMapper> {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 创建角色
+     * @param role
+     */
+    void create(Role role);
+
+    /**
+     * 修改角色
+     * @param role
+     */
+    void modify(Role role);
 }

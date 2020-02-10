@@ -35,6 +35,12 @@ public class Role implements Serializable {
     private String name;
 
     /**
+     * 角色编码
+     */
+    @Column(name = "code")
+    private String code;
+
+    /**
      * 创建人
      */
     @Column(name = "creator")

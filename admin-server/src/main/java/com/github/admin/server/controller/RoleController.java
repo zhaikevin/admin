@@ -2,7 +2,6 @@ package com.github.admin.server.controller;
 
 import com.github.admin.server.model.Role;
 import com.github.admin.server.service.RoleService;
-import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import com.github.foundation.pagination.model.Direction;
 import com.github.foundation.pagination.model.Order;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-
 /**
  * @Description:
  * @Author: kevin
@@ -31,9 +28,6 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     /**
      * @param currentPage
@@ -64,11 +58,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResultInfo create(@RequestBody Role role) {
-        role.setCreateTime(new Date());
-        role.setCreator(authenticationManager.getUserName());
-        role.setModifyTime(new Date());
-        role.setModifier(authenticationManager.getUserName());
-        roleService.insertUseGeneratedKeys(role);
+        roleService.create(role);
         return ResultInfo.success();
     }
 
@@ -89,9 +79,7 @@ public class RoleController {
      */
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ResultInfo modify(@RequestBody Role role) {
-        role.setModifier(authenticationManager.getUserName());
-        role.setModifyTime(new Date());
-        roleService.updateByPrimaryKeySelective(role);
+        roleService.modify(role);
         return ResultInfo.success();
     }
 

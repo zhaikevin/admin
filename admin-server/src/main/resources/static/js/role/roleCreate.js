@@ -3,11 +3,15 @@ var app = new Vue({
     data: {
         createForm: {
             name: '',
+            code:'',
             remark: '',
         },
         createRules: {
             name: [
                 {required: true, message: '请输入角色名称', trigger: 'blur'}
+            ],
+            code: [
+                {required: true, message: '请输入角色编码', trigger: 'blur'}
             ],
             remark: [
                 {max: 500, message: '最大长度为255', trigger: 'blur'}
@@ -25,6 +29,7 @@ var app = new Vue({
                 Vue.http.post('../../role/create',
                     {
                         name: self.createForm.name,
+                        code: self.createForm.code,
                         remark: self.createForm.remark,
                     }
                 ).then(function (res) {

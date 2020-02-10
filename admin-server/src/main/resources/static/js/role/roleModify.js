@@ -3,12 +3,16 @@ var app = new Vue({
     data: {
         modifyForm: {
             id:0,
+            code: '',
             name: '',
             remark: '',
         },
         modifyRules: {
             name: [
                 {required: true, message: '请输入角色名称', trigger: 'blur'}
+            ],
+            code: [
+                {required: true, message: '请输入角色编码', trigger: 'blur'}
             ],
             remark: [
                 {max: 500, message: '最大长度为255', trigger: 'blur'}
@@ -33,6 +37,7 @@ var app = new Vue({
                 if (data.status === 0) {
                     self.modifyForm.id = data.data.id
                     self.modifyForm.name = data.data.name
+                    self.modifyForm.code = data.data.code
                     self.modifyForm.remark = data.data.remark
                 } else {
                     self.$message.error(data.statusInfo)
@@ -52,6 +57,7 @@ var app = new Vue({
                     {
                         id: self.modifyForm.id,
                         name: self.modifyForm.name,
+                        code: self.modifyForm.code,
                         remark: self.modifyForm.remark,
                     }
                 ).then(function (res) {
