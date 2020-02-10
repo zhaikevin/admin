@@ -77,10 +77,10 @@ public class Menu implements Serializable {
     private String icon;
 
     /**
-     * 系统id
+     * 系统编码
      */
-    @Column(name = "system_id")
-    private Long systemId;
+    @Column(name = "system_code")
+    private String systemCode;
 
     /**
      * 创建人

@@ -2,7 +2,6 @@ package com.github.admin.server.controller;
 
 import com.github.admin.server.model.System;
 import com.github.admin.server.service.SystemService;
-import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
 import com.github.foundation.pagination.model.Direction;
 import com.github.foundation.pagination.model.Order;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-
 /**
  * @Description:
  * @Author: kevin
@@ -31,9 +28,6 @@ public class SystemController {
 
     @Autowired
     private SystemService systemService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     /**
      * 获取所有
@@ -74,11 +68,7 @@ public class SystemController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResultInfo create(@RequestBody System system) {
-        system.setCreateTime(new Date());
-        system.setCreator(authenticationManager.getUserName());
-        system.setModifyTime(new Date());
-        system.setModifier(authenticationManager.getUserName());
-        systemService.insertUseGeneratedKeys(system);
+        systemService.create(system);
         return ResultInfo.success();
     }
 
@@ -99,9 +89,7 @@ public class SystemController {
      */
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public ResultInfo modify(@RequestBody System system) {
-        system.setModifier(authenticationManager.getUserName());
-        system.setModifyTime(new Date());
-        systemService.UpdateByPrimaryKeySelective(system);
+        systemService.update(system);
         return ResultInfo.success();
     }
 

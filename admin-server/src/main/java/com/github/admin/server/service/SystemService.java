@@ -16,4 +16,16 @@ public interface SystemService extends BaseService<System, SystemMapper> {
      * @param id
      */
     void delete(Long id);
+
+    /**
+     * 创建
+     * @param system
+     */
+    void create(System system);
+
+    /**
+     * 修改
+     * @param system
+     */
+    void update(System system);
 }

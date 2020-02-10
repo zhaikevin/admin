@@ -141,10 +141,10 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
     }
 
     @Override
-    public List<Menu> getBySystemId(Long systemId) {
+    public List<Menu> getBySystemCode(String systemCode) {
         Example example = new Example(Menu.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("systemId", systemId);
+        criteria.andEqualTo("systemCode", systemCode);
         return menuMapper.selectByExample(example);
     }
 

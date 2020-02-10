@@ -93,7 +93,7 @@ public class SysUserController {
     public ResultInfo modify(@RequestBody SysUser sysUser) {
         sysUser.setModifier(authenticationManager.getUserName());
         sysUser.setModifyTime(new Date());
-        sysUserService.UpdateByPrimaryKeySelective(sysUser);
+        sysUserService.updateByPrimaryKeySelective(sysUser);
         return ResultInfo.success();
     }
 

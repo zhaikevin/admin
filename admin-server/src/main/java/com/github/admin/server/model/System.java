@@ -29,6 +29,12 @@ public class System implements Serializable {
     private Long id;
 
     /**
+     * code
+     */
+    @Column(name = "code")
+    private String code;
+
+    /**
      * 系统名字
      */
     @Column(name = "name")

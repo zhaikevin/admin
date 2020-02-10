@@ -74,10 +74,10 @@ public interface MenuService extends BaseService<Menu, MenuMapper> {
     List<Menu> getAllValidMenu();
 
     /**
-     * 根据系统id获取菜单
+     * 根据系统code获取菜单
      * @return
      */
-    List<Menu> getBySystemId(Long systemId);
+    List<Menu> getBySystemCode(String systemCode);
 
     /**
      * button鉴权

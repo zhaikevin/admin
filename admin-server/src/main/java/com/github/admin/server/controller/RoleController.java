@@ -91,7 +91,7 @@ public class RoleController {
     public ResultInfo modify(@RequestBody Role role) {
         role.setModifier(authenticationManager.getUserName());
         role.setModifyTime(new Date());
-        roleService.UpdateByPrimaryKeySelective(role);
+        roleService.updateByPrimaryKeySelective(role);
         return ResultInfo.success();
     }
 
