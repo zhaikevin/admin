@@ -152,7 +152,7 @@ var app = new Vue({
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('创建菜单异常');
+                    self.$message.error('修改菜单异常');
                 });
             })
         },

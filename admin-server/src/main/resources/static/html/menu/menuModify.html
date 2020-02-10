@@ -28,7 +28,7 @@
                 <el-input v-model="modifyForm.url" placeholder="请输入菜单路径"></el-input>
             </el-form-item>
             <el-form-item label="父菜单：" prop="parentId">
-                <el-select v-model="modifyForm.parentId"  placeholder="请选择父菜单">
+                <el-select v-model="modifyForm.parentId"  disabled placeholder="请选择父菜单">
                     <el-option v-for="item in menuList" :key="item.id" :label="item.name" :value="item.id"/>
                 </el-select>
             </el-form-item>

@@ -9,10 +9,11 @@
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
         <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="sort_id" property="sortId" jdbcType="TINYINT"/>
     </resultMap>
 
     <select id="getAllValidMenu" resultMap="BaseResultMap">
-       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,m.sort_id,
        case when m.url =''  then ''
             when m.url is null then ''
             else  CONCAT(s.url,m.url)
@@ -24,7 +25,7 @@
    </select>
 
     <select id="getBaseMenu" resultMap="BaseResultMap">
-       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,m.sort_id,
        case when m.url =''  then ''
             when m.url is null then ''
             else  CONCAT(s.url,m.url)
@@ -36,7 +37,7 @@
    </select>
 
     <select id="getMenuTreeById" resultMap="BaseResultMap" parameterType="java.lang.Long">
-       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,m.sort_id,
        case when m.url =''  then ''
             when m.url is null then ''
             else  CONCAT(s.url,m.url)
@@ -47,7 +48,7 @@
    </select>
 
     <select id="getMenuTreeByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
-       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,m.sort_id,
        case when m.url =''  then ''
             when m.url is null then ''
             else  CONCAT(s.url,m.url)
@@ -58,7 +59,7 @@
    </select>
 
     <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,
+       SELECT m.id,m.`name`,m.code,m.icon,m.parent_id,m.`type`,m.sort_id,
        case when m.url =''  then ''
             when m.url is null then ''
             else  CONCAT(s.url,m.url)

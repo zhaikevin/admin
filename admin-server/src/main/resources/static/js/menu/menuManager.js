@@ -40,6 +40,25 @@ var app = new Vue({
                 self.$message.error('获取菜单异常')
             });
         },
+        handleDrop(draggingNode, dropNode, dropType, ev) {
+            var params = {}
+            var self = this
+            params.draggingNodeId = draggingNode.data.id
+            params.dropNodeId = dropNode.data.id
+            params.dropType = dropType
+            Vue.http.post('../../menu/drop',
+                params
+            ).then(function (res) {
+                var data = res.body;
+                if (data.status === 0) {
+                    self.fetchData()
+                } else {
+                    self.$message.error(data.statusInfo)
+                }
+            }, function () {
+                self.$message.error('修改菜单异常');
+            });
+        },
         handleClick(data, checked, node) {
             if (checked) {
                 this.$refs.tree.setCheckedNodes([data])

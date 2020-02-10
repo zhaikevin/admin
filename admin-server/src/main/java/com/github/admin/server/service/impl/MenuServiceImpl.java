@@ -5,6 +5,7 @@ import com.github.admin.server.constant.MenuType;
 import com.github.admin.server.dao.MenuMapper;
 import com.github.admin.server.model.Menu;
 import com.github.admin.server.model.vo.ButtonAuthentication;
+import com.github.admin.server.model.vo.MenuDrop;
 import com.github.admin.server.model.vo.MenuTree;
 import com.github.admin.server.service.AuthenticationService;
 import com.github.admin.server.service.MenuService;
@@ -160,6 +161,61 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void drop(MenuDrop menuDrop) {
+        Menu menu = new Menu();
+        List<Menu> updateList = new ArrayList<>();
+        menu.setId(menuDrop.getDraggingNodeId());
+        //获取父节点，inner操作父节点就是目标节点，其他的父节点就是目标节点的父节点
+        if (menuDrop.getDropType().equals("inner")) {
+            menu.setParentId(menuDrop.getDropNodeId());
+        } else {
+            menu.setParentId(getById(menuDrop.getDropNodeId()).getParentId());
+        }
+        //获取排序的序号
+        Example example = new Example(Menu.class);
+        example.orderBy("sortId").asc();
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("parentId", menu.getParentId());
+        List<Menu> nodeList = menuMapper.selectByExample(example);
+        int index = nodeList.size();
+        //如果是inner操作，之前没有节点，则置为1，之前有，则置为最大，放在最后面
+        if (menuDrop.getDropType().equals("inner")) {
+            if (CollectionUtils.isEmpty(nodeList)) {
+                menu.setSortId(1);
+            } else {
+                menu.setSortId(nodeList.get(nodeList.size() - 1).getSortId() + 1);
+            }
+        } else {
+            //其他操作，先在子节点中找到目标节点，然后把序号和目标节点置为一样，再把后面节点序号全部加1
+            for (int i = 0; i < nodeList.size(); i++) {
+                Menu node = nodeList.get(i);
+                if (node.getId().equals(menuDrop.getDropNodeId())) {
+                    menu.setSortId(node.getSortId());
+                    index = i;
+                    break;
+                }
+            }
+            for (int i = 0; i < nodeList.size(); i++) {
+                if (i >= index) {
+                    Menu node = nodeList.get(i);
+                    Menu updateMenu = new Menu();
+                    updateMenu.setId(node.getId());
+                    updateMenu.setSortId(node.getSortId() + 1);
+                    updateList.add(updateMenu);
+                }
+            }
+        }
+        updateList.add(menu);
+        for (Menu updateMenu : updateList) {
+            updateMenu.setModifyTime(new Date());
+            updateMenu.setModifier(authenticationManager.getUserName());
+            menuMapper.updateByPrimaryKeySelective(updateMenu);
+        }
+    }
+
 
     /**
      * 获取子菜单列表

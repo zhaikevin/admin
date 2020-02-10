@@ -52,6 +52,11 @@ public class MenuTree implements Serializable {
     private Integer type;
 
     /**
+     * 排序编号
+     */
+    private Long sortId;
+
+    /**
      * 子节点
      */
     private List<MenuTree> children = new ArrayList<>();

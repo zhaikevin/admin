@@ -2,6 +2,7 @@ package com.github.admin.server.controller;
 
 import com.github.admin.server.model.Menu;
 import com.github.admin.server.model.vo.ButtonAuthentication;
+import com.github.admin.server.model.vo.MenuDrop;
 import com.github.admin.server.service.MenuService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.model.ResultInfo;
@@ -129,6 +130,17 @@ public class MenuController {
         List<ButtonAuthentication> list = JsonUtils.listFromJson(buttons, ButtonAuthentication.class);
         menuService.buttonAuthentication(list);
         return ResultInfo.success(list);
+    }
+
+    /**
+     * 菜单拖拽操作
+     * @param menuDrop
+     * @return
+     */
+    @RequestMapping(value = "/drop", method = RequestMethod.POST)
+    public ResultInfo drop(@RequestBody MenuDrop menuDrop) {
+        menuService.drop(menuDrop);
+        return ResultInfo.success();
     }
 
 }
