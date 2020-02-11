@@ -2,7 +2,10 @@ package com.github.admin.server.service;
 
 import com.github.admin.server.dao.UserGroupRelMapper;
 import com.github.admin.server.model.UserGroupRel;
+import com.github.admin.server.model.vo.UserGroupRelVO;
 import com.github.foundation.service.BaseService;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -34,4 +37,11 @@ public interface UserGroupRelService extends BaseService<UserGroupRel, UserGroup
      * @param groupId
      */
     void delete(Long userId, Long groupId);
+
+    /**
+     * 通过用户id获取
+     * @param userId
+     * @return
+     */
+    List<UserGroupRelVO> getByUserId(Long userId);
 }

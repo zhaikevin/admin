@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.admin.server.dao.UserGroupRelMapper">
+    <resultMap id="BaseResultMap" type="com.github.admin.server.model.vo.UserGroupRelVO">
+        <result column="group_id" property="groupId" jdbcType="VARCHAR"/>
+        <result column="code" property="groupCode" jdbcType="VARCHAR"/>
+        <result column="admin_flag" property="adminFlag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getByUserId" resultMap="BaseResultMap">
+       select r.group_id,g.code,r.admin_flag
+       from sys_usergroup_user_rel r
+       left join sys_user_group g on r.group_id = g.id
+       where r.user_id = #{userId}
+    </select>
+
+</mapper>

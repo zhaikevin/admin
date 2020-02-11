@@ -2,6 +2,7 @@ package com.github.admin.server.service.impl;
 
 import com.github.admin.server.dao.UserGroupRelMapper;
 import com.github.admin.server.model.UserGroupRel;
+import com.github.admin.server.model.vo.UserGroupRelVO;
 import com.github.admin.server.service.UserGroupRelService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description:
@@ -76,5 +78,10 @@ public class UserGroupRelServiceImpl extends BaseServiceImpl<UserGroupRel, UserG
             criteria.andEqualTo("groupId", groupId);
         }
         userGroupRelMapper.deleteByExample(example);
+    }
+
+    @Override
+    public List<UserGroupRelVO> getByUserId(Long userId) {
+        return userGroupRelMapper.getByUserId(userId);
     }
 }

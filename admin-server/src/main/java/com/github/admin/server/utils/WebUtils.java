@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * @Description:
@@ -22,8 +24,9 @@ public final class WebUtils {
      * @param value
      * @param response
      */
-    public static void addCookie(String name, String value, HttpServletResponse response) {
-        Cookie cookie = new Cookie(name, value);
+    public static void addCookie(String name, String value, HttpServletResponse response) throws UnsupportedEncodingException {
+        String encodeValue = URLEncoder.encode(value,"utf-8");
+        Cookie cookie = new Cookie(name, encodeValue);
         cookie.setMaxAge(-1);
         cookie.setPath("/");
         response.addCookie(cookie);
