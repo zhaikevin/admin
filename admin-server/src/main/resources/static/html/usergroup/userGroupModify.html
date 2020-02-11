@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新建用户</title>
+    <title>编辑用户组</title>
     <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
     <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
     <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
@@ -12,13 +12,13 @@
 <body>
     <div id="app">
         <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="120px" style="width: 340px">
-            <el-form-item label="角色名称：" prop="name">
-                <el-input v-model="modifyForm.name" placeholder="请输入角色名称"></el-input>
+            <el-form-item label="用户组名称：" prop="name">
+                <el-input v-model="modifyForm.name" placeholder="请输入用户组名称"></el-input>
             </el-form-item>
-            <el-form-item label="角色编码：" prop="code">
-                <el-input v-model="modifyForm.code" placeholder="请输入角色编码"></el-input>
+            <el-form-item label="用户组编码：" prop="code">
+                <el-input v-model="modifyForm.code" placeholder="请输入用户组编码"></el-input>
             </el-form-item>
-            <el-form-item label="角色描述：" prop="remark">
+            <el-form-item label="用户组描述：" prop="remark">
                 <el-input type="textarea" :rows="4" v-model="modifyForm.remark"></el-input>
             </el-form-item>
             <el-form-item style="text-align: center">
@@ -27,6 +27,6 @@
             </el-form-item>
         </el-form>
     </div>
-<script type="text/javascript" src="../../js/role/roleModify.js"></script>
+<script type="text/javascript" src="../../js/usergroup/userGroupModify.js"></script>
 </body>
 </html>
