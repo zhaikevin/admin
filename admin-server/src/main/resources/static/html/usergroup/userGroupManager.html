@@ -63,6 +63,12 @@
                         <el-button v-if="authData.delete" size="mini" type="danger"
                                    @click="handleDelete(scope.$index, scope.row)">删除
                         </el-button>
+                        <el-button v-if="authData.userList" size="mini" type="primary"
+                                   @click="showUserGroupRelDialog(scope.$index, scope.row)">用户列表
+                        </el-button>
+                        <el-button v-if="authData.userCreate" size="mini" type="warning" style="margin-top: 10px"
+                                   @click="showAddUserDialog(scope.$index, scope.row)">添加用户
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -91,6 +97,22 @@
                        :visible.sync="modifyDialog" width="500px">
                 <span>
                     <iframe :src="modifyUrl" width="100%" height="250px" style="border:0px"></iframe>
+                </span>
+            </el-dialog>
+            <el-dialog title="用户列表"
+                       before-close="beforeUserGroupRelCloseDialog"
+                       close-on-click-modal="false"
+                       :visible.sync="userGroupRelDialog" width="1000px">
+                <span>
+                    <iframe :src="userGroupRelUrl" width="100%" height="350px" style="border:0px"></iframe>
+                </span>
+            </el-dialog>
+            <el-dialog title="添加用户"
+                       before-close="beforeAddUserCloseDialog"
+                       close-on-click-modal="false"
+                       :visible.sync="addUserDialog" width="1000px">
+                <span>
+                    <iframe :src="addUserUrl" width="100%" height="350px" style="border:0px"></iframe>
                 </span>
             </el-dialog>
         </el-main>

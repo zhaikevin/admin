@@ -132,4 +132,17 @@ public class SysUserController {
         return ResultInfo.success(pagination);
     }
 
+    @RequestMapping(value = "/listByGroup", method = RequestMethod.GET)
+    public ResultInfo listByGroup(@RequestParam(value = "currentPage") Integer currentPage,
+                                 @RequestParam(value = "pageSize") Integer pageSize,
+                                 @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
+                                 @RequestParam(value = "order", required = false, defaultValue = "desc") String order,
+                                 @RequestParam(value = "username", required = false) String username,
+                                 @RequestParam(value = "groupId") Long groupId) {
+        Sort sortObj = new Sort(new Order(Direction.fromString(order), sort));
+        Pagination<SysUser> pagination = new Pagination<>(currentPage, pageSize, sortObj);
+        sysUserService.listByGroup(groupId, username, pagination);
+        return ResultInfo.success(pagination);
+    }
+
 }

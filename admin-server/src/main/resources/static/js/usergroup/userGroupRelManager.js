@@ -2,7 +2,7 @@ var app = new Vue({
     el: "#app",
     data: {
         form: {
-            name: '',
+            userName: '',
         },
         centerDialogVisible: false,
         currentPage: 0,
@@ -12,24 +12,10 @@ var app = new Vue({
         order: 'desc',
         listLoading: false,
         tableData: [],
-        createDialog: false,
-        createUrl: '',
-        modifyDialog: false,
-        modifyUrl: '',
-        modifyId: 0,
-        userGroupRelDialog: false,
-        userGroupRelUrl: '',
-        userGroupRelId: 0,
-        addUserDialog: false,
-        addUserUrl: '',
-        addUserId: 0,
         authData: {
-            create: false,
-            modify: false,
             delete: false,
-            search: false,
-            userList: false,
-            userCreate: false,
+            admin: false,
+            cancel: false,
         },
     },
     mounted() {
@@ -40,15 +26,16 @@ var app = new Vue({
         fetchData() {
             this.listLoading = true;
             var self = this;
-            Vue.http.get('../../userGroup/list',
+            Vue.http.get('../../userGroupRel/list',
                 {
                     params:
                         {
                             currentPage: self.currentPage,
                             pageSize: self.pageSize,
-                            name: self.form.name,
                             sort: self.sort,
-                            order: self.order
+                            order: self.order,
+                            userName: self.form.userName,
+                            groupId: window.parent.app.userGroupRelId,
                         }
                 }
             ).then(function (res) {
@@ -62,8 +49,17 @@ var app = new Vue({
                 }
             }, function () {
                 self.listLoading = false
-                self.$message.error('获取用户组列表失败');
+                self.$message.error('获取用户组关系列表失败');
             });
+        },
+        formatterAdminFlag(row, column, cellValue, index) {
+            if (!cellValue) {
+                return ''
+            }
+            if (cellValue == 2) {
+                return '是'
+            }
+            return '否'
         },
         formatterDate(row, column, cellValue, index) {
             if (!cellValue) {
@@ -99,61 +95,60 @@ var app = new Vue({
             })
             return time_str
         },
-        beforeCreateCloseDialog() {
-            this.createUrl = ''
+        handleAdmin(index, row) {
+            this.modifyFlag(row.id, 2)
         },
-        showCreateDialog() {
-            this.createDialog = true
-            this.createUrl = 'userGroupCreate.html?new=' + Math.random()
+        handleCancel(index, row) {
+            this.modifyFlag(row.id, 1)
         },
-        showModifyDialog(index, row) {
-            this.modifyDialog = true
-            this.modifyUrl = 'userGroupModify.html?new=' + Math.random()
-            this.modifyId = row.id;
-        },
-        beforeModifyCloseDialog() {
-            this.modifyId = 0
-            this.modifyUrl = ''
-        },
-        showUserGroupRelDialog(index, row) {
-            this.userGroupRelDialog = true
-            this.userGroupRelUrl = 'userGroupRelManager.html?new=' + Math.random()
-            this.userGroupRelId = row.id;
-        },
-        beforeUserGroupRelCloseDialog() {
-            this.userGroupRelId = 0
-            this.userGroupRelUrl = ''
-        },
-        showAddUserDialog(index, row) {
-            this.addUserDialog = true
-            this.addUserUrl = 'userGroupRelCreate.html?new=' + Math.random()
-            this.addUserId = row.id;
-        },
-        beforeAddUserCloseDialog() {
-            this.addUserId = 0
-            this.addUserUrl = ''
-        },
-        handleDelete(index, row) {
-            var self = this;
-            this.$confirm('确认删除该用户组？', '提示', {
+        modifyFlag(id, flag) {
+            var self = this
+            this.$confirm('确认修改用户管理员权限？', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning',
                 center: true
             }).then(function () {
-                Vue.http.post('../../userGroup/delete/' + row.id,
+                Vue.http.post('../../userGroupRel/modify',
                     {
+                        id: id,
+                        adminFlag: flag,
                     }
                 ).then(function (res) {
                     var data = res.body;
                     if (data.status === 0) {
-                        self.$message.success("删除用户组成功")
+                        self.$message.success("修改用户管理员权限成功")
                         self.fetchData()
                     } else {
                         self.$message.error(data.statusInfo)
                     }
                 }, function () {
-                    self.$message.error('删除用户组失败');
+                    self.$message.error('修改用户管理员权限失败');
+                });
+            }, function () {
+                return
+            })
+        },
+        handleDelete(index, row) {
+            var self = this;
+            this.$confirm('确认删除该用户与用户组的关联关系？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                center: true
+            }).then(function () {
+                Vue.http.post('../../userGroupRel/delete/' + row.id,
+                    {}
+                ).then(function (res) {
+                    var data = res.body;
+                    if (data.status === 0) {
+                        self.$message.success("删除用户与用户组的关联关系成功")
+                        self.fetchData()
+                    } else {
+                        self.$message.error(data.statusInfo)
+                    }
+                }, function () {
+                    self.$message.error('删除用户与用户组的关联关系失败');
                 });
             }, function () {
                 return
@@ -172,12 +167,9 @@ var app = new Vue({
         },
         auth: function () {
             var authCode = {
-                'admin.userGroup.create': 'create',
-                'admin.userGroup.search': 'search',
-                'admin.userGroup.modify': 'modify',
-                'admin.userGroup.delete': 'delete',
-                'admin.userGroup.user.list': 'userList',
-                'admin.userGroup.user.create': 'userCreate',
+                'admin.userGroup.user.delete': 'delete',
+                'admin.userGroup.user.admin': 'admin',
+                'admin.userGroup.user.cancel': 'cancel',
             }
             authentication(authCode, this.authData, this)
         }

@@ -20,4 +20,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     List<SysUser> listByRole(Long roleId, String username);
+
+    /**
+     * 分页查询，去掉跟用户组有对应关系的用户
+     * @param groupId
+     * @return
+     */
+    List<SysUser> listByGroup(Long groupId, String username);
 }

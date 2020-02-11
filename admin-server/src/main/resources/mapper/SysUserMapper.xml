@@ -18,4 +18,14 @@
         </if>
     </select>
 
+    <select id="listByGroup" resultMap="BaseResultMap">
+        select id,username,email,mobile
+        from sys_user
+        where id not in (select user_id from sys_usergroup_user_rel where group_id = #{arg0})
+        and state = 1
+        <if test="#{arg1}!= null">
+            and username like concat('%',#{arg1},'%')
+        </if>
+    </select>
+
 </mapper>

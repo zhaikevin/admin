@@ -4,8 +4,11 @@ import com.github.admin.server.constant.CommonState;
 import com.github.admin.server.dao.SysUserMapper;
 import com.github.admin.server.model.Role;
 import com.github.admin.server.model.SysUser;
+import com.github.admin.server.model.UserGroup;
 import com.github.admin.server.service.RoleService;
 import com.github.admin.server.service.SysUserService;
+import com.github.admin.server.service.UserGroupRelService;
+import com.github.admin.server.service.UserGroupService;
 import com.github.admin.server.service.UserRoleService;
 import com.github.foundation.authentication.AuthenticationManager;
 import com.github.foundation.common.exception.BusinessException;
@@ -47,8 +50,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private UserGroupRelService userGroupRelService;
+
+    @Autowired
+    private UserGroupService userGroupService;
+
     @Value("${foundation.user.defaultRoleCode}")
     private String defaultRoleCode;
+
+    @Value("${foundation.user.defaultGroupCode}")
+    private String defaultGroupCode;
 
     @Override
     public SysUser getByName(String userName) {
@@ -84,13 +96,26 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
         }
         sysUser.setCreateTime(DateUtils.now());
         sysUser.setModifyTime(DateUtils.now());
+        //新建用户
         sysUserMapper.insertUseGeneratedKeys(sysUser);
+
+        //把用户加入到默认角色
         Role role = roleService.getByCode(defaultRoleCode);
         if (role != null) {
             if (operation.equals("register")) {
                 userRoleService.save(sysUser.getId(), role.getId(), sysUser.getUsername(), sysUser.getUsername());
             } else {
                 userRoleService.save(sysUser.getId(), role.getId(), sysUser.getUsername());
+            }
+        }
+
+        //把用户加入到默认分组
+        UserGroup userGroup = userGroupService.getByCode(defaultGroupCode);
+        if (userGroup != null) {
+            if (operation.equals("register")) {
+                userGroupRelService.save(sysUser.getId(), userGroup.getId(), sysUser.getUsername(), sysUser.getUsername());
+            } else {
+                userGroupRelService.save(sysUser.getId(), userGroup.getId(), sysUser.getUsername());
             }
         }
         return sysUser.getId();
@@ -101,6 +126,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     public void delete(Long id) {
         sysUserMapper.deleteByPrimaryKey(id);
         userRoleService.delete(id, null);
+        userGroupRelService.delete(id, null);
     }
 
     @Override
@@ -121,6 +147,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     @Pageable
     public void listByRole(Long roleId, String username, Pagination<SysUser> pagination) {
         List<SysUser> list = sysUserMapper.listByRole(roleId, username);
+        pagination.setDataset(list);
+        pagination.setTotal(((Page<SysUser>) list).getTotal());
+    }
+
+    @Override
+    @Pageable
+    public void listByGroup(Long groupId, String username, Pagination<SysUser> pagination) {
+        List<SysUser> list = sysUserMapper.listByGroup(groupId, username);
         pagination.setDataset(list);
         pagination.setTotal(((Page<SysUser>) list).getTotal());
     }

@@ -44,4 +44,11 @@ public interface SysUserService extends BaseService<SysUser, SysUserMapper> {
      * @param roleId
      */
     void listByRole(Long roleId, String username, Pagination<SysUser> pagination);
+
+    /**
+     * 分页查询，去掉跟用户组有对应关系的用户
+     * @param pagination
+     * @param groupId
+     */
+    void listByGroup(Long groupId, String username, Pagination<SysUser> pagination);
 }
