@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑项目</title>
+    <link rel="stylesheet" type="text/css" href="../../element-ui/css/index.css">
+    <script type="text/javascript" src="../../element-ui/js/vue.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="../../element-ui/js/index.js"></script>
+    <script type="text/javascript" src="../../js/common/authentication.js"></script>
+</head>
+<body>
+    <div id="app">
+        <el-form :model="modifyForm" :rules="modifyRules" ref="modifyForm" label-width="120px" style="width: 340px">
+            <el-form-item label="项目名称：" prop="name">
+                <el-input v-model="modifyForm.name" placeholder="请输入项目名称"></el-input>
+            </el-form-item>
+            <el-form-item label="项目编码：" prop="code">
+                <el-input v-model="modifyForm.code" placeholder="请输入项目编码"></el-input>
+            </el-form-item>
+            <el-form-item label="项目描述：" prop="remark">
+                <el-input type="textarea" :rows="4" v-model="modifyForm.remark"></el-input>
+            </el-form-item>
+            <el-form-item style="text-align: center">
+                <el-button type="primary" size="small" @click="submitForm('modifyForm')">保存</el-button>
+                <el-button type="primary" size="small" @click="cancel">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+<script type="text/javascript" src="../../js/project/projectModify.js"></script>
+</body>
+</html>
