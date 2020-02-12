@@ -1,9 +1,35 @@
+/**
+ * 用户组鉴权
+ */
+function groupAuthentication(groupId) {
+    var groupList = JSON.parse(Cookies.get('user_group'))
+    if (groupList.length === 0) {
+        return false
+    }
+    for (var i = 0; i < groupList.length; i++) {
+        var group = groupList[i]
+        if (groupId == group.groupId && group.adminFlag == 2) {
+            return true
+        }
+        if(group.groupCode === 'super') {
+            return true
+        }
+    }
+    return false
+}
+
+/**
+ * 按钮鉴权
+ * @param codes
+ * @param authData
+ * @param self
+ */
 function authentication(codes, authData, self) {
     var menuCodes = []
     Object.keys(codes).forEach(function (key) {
         menuCodes.push(
             {
-                menuCode:key
+                menuCode: key
             }
         )
     })

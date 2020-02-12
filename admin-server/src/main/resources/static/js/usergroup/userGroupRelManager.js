@@ -17,12 +17,17 @@ var app = new Vue({
             admin: false,
             cancel: false,
         },
+        permission: false,
     },
     mounted() {
         this.fetchData();
         this.auth();
+        this.validatePermission()
     },
     methods: {
+        validatePermission() {
+            this.permission = groupAuthentication(window.parent.app.userGroupRelId)
+        },
         fetchData() {
             this.listLoading = true;
             var self = this;

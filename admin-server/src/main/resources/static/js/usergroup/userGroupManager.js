@@ -125,6 +125,10 @@ var app = new Vue({
             this.userGroupRelUrl = ''
         },
         showAddUserDialog(index, row) {
+            if(!groupAuthentication(row.id)) {
+                this.$message.error('你不是该群组管理员，无权操作')
+                return
+            }
             this.addUserDialog = true
             this.addUserUrl = 'userGroupRelCreate.html?new=' + Math.random()
             this.addUserId = row.id;
