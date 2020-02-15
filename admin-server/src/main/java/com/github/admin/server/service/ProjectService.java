@@ -3,6 +3,7 @@ package com.github.admin.server.service;
 import com.github.admin.server.dao.ProjectMapper;
 import com.github.admin.server.model.Project;
 import com.github.admin.server.model.UserGroup;
+import com.github.foundation.pagination.model.Pagination;
 import com.github.foundation.service.BaseService;
 
 /**
@@ -29,4 +30,14 @@ public interface ProjectService extends BaseService<Project, ProjectMapper> {
      * @param project
      */
     void modify(Project project);
+
+    /**
+     *
+     * @param projectName
+     * @param projectCode
+     * @param groupId
+     * @param pagination
+     */
+    void listByGroup(String projectName, String projectCode, Long groupId, Pagination pagination);
+
 }

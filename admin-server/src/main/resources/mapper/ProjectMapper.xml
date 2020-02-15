@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.github.admin.server.dao.ProjectMapper">
+    <resultMap id="BaseResultMap" type="com.github.admin.server.model.Project">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="listByGroup" resultMap="BaseResultMap">
+        select id,`name`,code
+        from  sys_project
+        where id not in (select project_id from sys_usergroup_project_rel where group_id = #{arg2})
+        <if test="arg0!= null and arg0!= ''">
+            and p.name like concat('%',#{arg0},'%')
+        </if>
+        <if test="arg1!= null and arg1!= ''">
+            and p.code like concat('%',#{arg1},'%')
+        </if>
+    </select>
+
+</mapper>

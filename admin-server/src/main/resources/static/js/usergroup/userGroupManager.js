@@ -23,6 +23,12 @@ var app = new Vue({
         addUserDialog: false,
         addUserUrl: '',
         addUserId: 0,
+        projectRelDialog: false,
+        projectRelUrl: '',
+        projectRelId: 0,
+        addProjectDialog: false,
+        addProjectUrl: '',
+        addProjectId: 0,
         authData: {
             create: false,
             modify: false,
@@ -30,6 +36,8 @@ var app = new Vue({
             search: false,
             userList: false,
             userCreate: false,
+            projectList: false,
+            projectCreate: false,
         },
     },
     mounted() {
@@ -137,6 +145,28 @@ var app = new Vue({
             this.addUserId = 0
             this.addUserUrl = ''
         },
+        showProjectRelDialog(index, row) {
+            this.projectRelDialog = true
+            this.projectRelUrl = 'projectRelManager.html?new=' + Math.random()
+            this.projectRelId = row.id;
+        },
+        beforeProjectRelCloseDialog() {
+            this.projectRelId = 0
+            this.projectRelUrl = ''
+        },
+        showAddProjectDialog(index, row) {
+            if(!groupAuthentication(row.id)) {
+                this.$message.error('你不是该群组管理员，无权操作')
+                return
+            }
+            this.addProjectDialog = true
+            this.addProjectUrl = 'projectRelCreate.html?new=' + Math.random()
+            this.addProjectId = row.id;
+        },
+        beforeAddProjectCloseDialog() {
+            this.addProjectId = 0
+            this.addProjectUrl = ''
+        },
         handleDelete(index, row) {
             var self = this;
             this.$confirm('确认删除该用户组？', '提示', {
@@ -182,6 +212,8 @@ var app = new Vue({
                 'admin.userGroup.delete': 'delete',
                 'admin.userGroup.user.list': 'userList',
                 'admin.userGroup.user.create': 'userCreate',
+                'admin.userGroup.project.list': 'projectList',
+                'admin.userGroup.project.create': 'projectCreate',
             }
             authentication(authCode, this.authData, this)
         }

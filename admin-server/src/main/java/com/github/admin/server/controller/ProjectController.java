@@ -93,4 +93,27 @@ public class ProjectController {
         projectService.delete(id);
         return ResultInfo.success();
     }
+
+    /**
+     * 获取列表
+     * @param currentPage
+     * @param pageSize
+     * @param sort
+     * @param order
+     * @param groupId
+     * @return
+     */
+    @RequestMapping(value = "/listByGroup", method = RequestMethod.GET)
+    public ResultInfo list(@RequestParam(value = "currentPage") Integer currentPage,
+                           @RequestParam(value = "pageSize") Integer pageSize,
+                           @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
+                           @RequestParam(value = "order", required = false, defaultValue = "desc") String order,
+                           @RequestParam(value = "projectName", required = false) String projectName,
+                           @RequestParam(value = "projectCode", required = false) String projectCode,
+                           @RequestParam(value = "groupId") Long groupId) {
+        Sort sortObj = new Sort(new Order(Direction.fromString(order), sort));
+        Pagination<Project> pagination = new Pagination<>(currentPage, pageSize, sortObj);
+        projectService.listByGroup(projectName, projectCode, groupId, pagination);
+        return ResultInfo.success(pagination);
+    }
 }

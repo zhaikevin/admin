@@ -70,6 +70,12 @@
                         <el-button v-if="authData.userCreate" size="mini" type="warning" style="margin-top: 10px"
                                    @click="showAddUserDialog(scope.$index, scope.row)">添加用户
                         </el-button>
+                        <el-button v-if="authData.projectList" size="mini" type="success"
+                                   @click="showProjectRelDialog(scope.$index, scope.row)">项目列表
+                        </el-button>
+                        <el-button v-if="authData.projectCreate" size="mini" type="info" style="margin-top: 10px"
+                                   @click="showAddProjectDialog(scope.$index, scope.row)">添加项目
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -114,6 +120,22 @@
                        :visible.sync="addUserDialog" width="1000px">
                 <span>
                     <iframe :src="addUserUrl" width="100%" height="350px" style="border:0px"></iframe>
+                </span>
+            </el-dialog>
+            <el-dialog title="项目列表"
+                       before-close="beforeProjectRelCloseDialog"
+                       close-on-click-modal="false"
+                       :visible.sync="projectRelDialog" width="1000px">
+                <span>
+                    <iframe :src="projectRelUrl" width="100%" height="350px" style="border:0px"></iframe>
+                </span>
+            </el-dialog>
+            <el-dialog title="添加项目"
+                       before-close="beforeAddProjectCloseDialog"
+                       close-on-click-modal="false"
+                       :visible.sync="addProjectDialog" width="1000px">
+                <span>
+                    <iframe :src="addProjectUrl" width="100%" height="350px" style="border:0px"></iframe>
                 </span>
             </el-dialog>
         </el-main>

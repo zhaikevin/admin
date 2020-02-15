@@ -2,6 +2,7 @@ package com.github.admin.server.service.impl;
 
 import com.github.admin.server.dao.UserGroupMapper;
 import com.github.admin.server.model.UserGroup;
+import com.github.admin.server.service.ProjectRelService;
 import com.github.admin.server.service.UserGroupRelService;
 import com.github.admin.server.service.UserGroupService;
 import com.github.foundation.authentication.AuthenticationManager;
@@ -31,12 +32,15 @@ public class UserGroupServiceImpl extends BaseServiceImpl<UserGroup, UserGroupMa
     @Autowired
     private UserGroupRelService userGroupRelService;
 
+    @Autowired
+    private ProjectRelService projectRelService;
+
     @Override
     @Transactional
     public void delete(Long id) {
         userGroupMapper.deleteByPrimaryKey(id);
-        userGroupRelService.delete(null,id);
-        //TODO
+        userGroupRelService.delete(null, id);
+        projectRelService.deleteByGroupId(id);
     }
 
     @Override

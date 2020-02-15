@@ -225,7 +225,6 @@ public class MenuServiceImpl extends BaseServiceImpl<Menu, MenuMapper> implement
      */
     private void getSubMenuList(MenuTree parentMenuTree, List<MenuTree> list, Map<Long, Long> map) {
         for (MenuTree menuTree : list) {
-            //TODO 后续加上用户权限判断
             if (menuTree.getParentId().equals(parentMenuTree.getId()) && map.containsKey(menuTree.getId())) {
                 parentMenuTree.addChild(menuTree);
                 getSubMenuList(menuTree, list, map);
