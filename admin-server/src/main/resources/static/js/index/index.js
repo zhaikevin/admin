@@ -33,6 +33,9 @@ var app = new Vue({
         showMain: false,
         infoDialog: false,
         infoUrl: '',
+        resetPasswordDialog: false,
+        resetPasswordUrl: '',
+        resetPasswordId: Cookies.get('user_id'),
     },
     mounted() {
         this.getHeaderMenuList();
@@ -84,8 +87,12 @@ var app = new Vue({
             switch (command) {
                 case 'logout':
                     this.logout()
+                    break
                 case 'profile':
                     this.showInfoDialog()
+                    break
+                case 'resetPassword':
+                    this.resetPassword()
             }
         },
         showInfoDialog() {
@@ -94,6 +101,13 @@ var app = new Vue({
         },
         beforeInfoCloseDialog() {
             this.infoUrl = ''
+        },
+        resetPassword() {
+            this.resetPasswordDialog = true
+            this.resetPasswordUrl = 'html/user/resetPassword.html?new=' + Math.random()
+        },
+        beforeResetPasswordCloseDialog() {
+            this.resetPasswordUrl = ''
         },
         //退出登录
         logout() {
