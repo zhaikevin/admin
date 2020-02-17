@@ -18,6 +18,8 @@ public class UserGroupRelVO implements Serializable {
 
     private String groupCode;
 
+    private String groupName;
+
     private Integer adminFlag;
 
 }

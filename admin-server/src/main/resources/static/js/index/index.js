@@ -31,6 +31,8 @@ var app = new Vue({
         editableTabsValue: '',
         activeIndex: '',
         showMain: false,
+        infoDialog: false,
+        infoUrl: '',
     },
     mounted() {
         this.getHeaderMenuList();
@@ -82,7 +84,16 @@ var app = new Vue({
             switch (command) {
                 case 'logout':
                     this.logout()
+                case 'profile':
+                    this.showInfoDialog()
             }
+        },
+        showInfoDialog() {
+            this.infoDialog = true
+            this.infoUrl = 'html/user/userInfo.html?new=' + Math.random()
+        },
+        beforeInfoCloseDialog() {
+            this.infoUrl = ''
         },
         //退出登录
         logout() {

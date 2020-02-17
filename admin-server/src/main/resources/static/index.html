@@ -73,6 +73,14 @@
                 </el-tabs>
             </el-main>
         </el-container>
+        <el-dialog title="个人资料"
+                   before-close="beforeInfoCloseDialog"
+                   close-on-click-modal="false"
+                   :visible.sync="infoDialog" width="500px">
+                <span>
+                    <iframe :src="infoUrl" width="100%" height="350px" style="border:0px"></iframe>
+                </span>
+        </el-dialog>
     </el-container>
 </div>
 <link rel="stylesheet" type="text/css" href="css/index/index.css">

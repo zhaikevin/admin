@@ -4,11 +4,12 @@
     <resultMap id="BaseResultMap" type="com.github.admin.server.model.vo.UserGroupRelVO">
         <result column="group_id" property="groupId" jdbcType="VARCHAR"/>
         <result column="code" property="groupCode" jdbcType="VARCHAR"/>
+        <result column="name" property="groupName" jdbcType="VARCHAR"/>
         <result column="admin_flag" property="adminFlag" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="getByUserId" resultMap="BaseResultMap">
-       select r.group_id,g.code,r.admin_flag
+       select r.group_id,g.code,g.name,r.admin_flag
        from sys_usergroup_user_rel r
        left join sys_user_group g on r.group_id = g.id
        where r.user_id = #{userId}
