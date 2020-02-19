@@ -1,0 +1,59 @@
+server:
+  port: 9080
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /admin-server/
+
+foundation:
+  user:
+    defaultRoleCode: default
+    defaultGroupCode: default
+  project:
+    name: admin
+    env: dev
+  authentication:
+    loginUrl: /login.html
+    unauthorizedUrl: /403.html
+    excludeUrls: /user/login,/user/register,/js/**,/css/**,/element-ui/**,/login.html,/register.html
+    sessionTimeoutSeconds: 1800
+
+spring:
+  mvc:
+    static-path-pattern: /admin-server/**
+  resources:
+    static-locations: classpath:/static
+  application:
+    name: admin-server
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://172.16.32.186:3306/admin?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#mybatis配置
+mybatis:
+  type-aliases-package: com.github.admin.server.model
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+# 通用 Mapper 配置
+mapper:
+  mappers: com.github.foundation.datasource.mapper.BaseMapper
+  not-empty: false
+  identity: MYSQL
+
+logging:
+  level:
+     com.github.foundation: debug
+     com.github.admin: debug
