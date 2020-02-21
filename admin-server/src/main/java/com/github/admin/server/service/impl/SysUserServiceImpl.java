@@ -56,10 +56,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, SysUserMapper> 
     @Autowired
     private UserGroupService userGroupService;
 
-    @Value("${foundation.user.defaultRoleCode}")
+    @Value("${admin.user.defaultRoleCode}")
     private String defaultRoleCode;
 
-    @Value("${foundation.user.defaultGroupCode}")
+    @Value("${admin.user.defaultGroupCode}")
     private String defaultGroupCode;
 
     @Override

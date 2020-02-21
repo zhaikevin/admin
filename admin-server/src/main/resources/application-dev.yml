@@ -5,10 +5,12 @@ server:
   servlet:
     context-path: /admin-server/
 
-foundation:
+admin:
   user:
     defaultRoleCode: default
     defaultGroupCode: default
+
+foundation:
   project:
     name: admin
     env: dev
