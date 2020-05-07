@@ -18,6 +18,9 @@
         <el-form-item label="项目编码：" prop="code">
             <el-input v-model="createForm.code" placeholder="请输入项目编码"></el-input>
         </el-form-item>
+        <el-form-item label="ip地址：" prop="ip">
+            <el-input v-model="createForm.ip" placeholder="多个ip地址已英文逗号分隔"></el-input>
+        </el-form-item>
         <el-form-item label="项目描述：" prop="remark">
             <el-input type="textarea" :rows="4" v-model="createForm.remark"></el-input>
         </el-form-item>

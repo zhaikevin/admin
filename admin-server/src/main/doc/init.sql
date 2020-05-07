@@ -49,6 +49,7 @@ CREATE TABLE `sys_project` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `code` varchar(255)  NOT NULL COMMENT '项目编码',
   `name` varchar(255) NOT NULL COMMENT '项目名称',
+  `ip` varchar(255) NOT NULL COMMENT 'ip地址',
   `creator` varchar(255) NOT NULL COMMENT '创建人',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modifier` varchar(255) NOT NULL COMMENT '修改人',

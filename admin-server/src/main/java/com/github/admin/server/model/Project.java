@@ -41,6 +41,12 @@ public class Project implements Serializable {
     private String code;
 
     /**
+     * ip地址
+     */
+    @Column(name = "ip")
+    private String ip;
+
+    /**
      * 创建人
      */
     @Column(name = "creator")

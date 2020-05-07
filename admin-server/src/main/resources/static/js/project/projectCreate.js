@@ -3,7 +3,8 @@ var app = new Vue({
     data: {
         createForm: {
             name: '',
-            code:'',
+            code: '',
+            ip: '',
             remark: '',
         },
         createRules: {
@@ -12,6 +13,9 @@ var app = new Vue({
             ],
             code: [
                 {required: true, message: '请输入项目编码', trigger: 'blur'}
+            ],
+            ip: [
+                {required: true, message: '请输入项目ip地址', trigger: 'blur'}
             ],
             remark: [
                 {max: 500, message: '最大长度为255', trigger: 'blur'}
@@ -30,6 +34,7 @@ var app = new Vue({
                     {
                         name: self.createForm.name,
                         code: self.createForm.code,
+                        ip: self.createForm.ip,
                         remark: self.createForm.remark,
                     }
                 ).then(function (res) {
